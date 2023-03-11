@@ -130,4 +130,6 @@ public interface IParadiesspiel {
 	 */
 	public String toString();
 
+
+
 }
