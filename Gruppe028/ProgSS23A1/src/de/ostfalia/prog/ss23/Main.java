@@ -1,9 +1,9 @@
 package de.ostfalia.prog.ss23;
-
+import java.util.*;
+import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        System.out.println("Test123");
-        System.out.println("NewTest");
+        System.out.println("Hallo");
+
     }
 }
