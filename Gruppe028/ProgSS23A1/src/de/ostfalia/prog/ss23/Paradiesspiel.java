@@ -3,6 +3,8 @@ package de.ostfalia.prog.ss23;
 import de.ostfalia.prog.ss23.enums.Farbe;
 import de.ostfalia.prog.ss23.interfaces.IParadiesspiel;
 
+import java.util.Scanner;
+
 public class Paradiesspiel implements IParadiesspiel {
     private Spieler[] spieler;
 
@@ -45,15 +47,11 @@ public class Paradiesspiel implements IParadiesspiel {
     @Override
     public boolean bewegeFigur(String figur, int... augenzahlen) {
         for (Spieler spieler : spieler) {
-            if (spieler.getFiguren()[0].getName().equals(figur)){
+            if (spieler.getFigur(figur) != null){
                 for (int i : augenzahlen) {
                     spieler.getFigur(figur).setPosition(getFigurposition(figur) + i);
                 }
                 return true;
-            } else if (spieler.getFiguren()[1].getName().equals(figur)) {
-                for (int i : augenzahlen) {
-                    spieler.getFigur(figur).setPosition(getFigurposition(figur) + i);
-                }
             }
         }
         return false;
@@ -94,12 +92,15 @@ public class Paradiesspiel implements IParadiesspiel {
         Wuerfel augenWuerfel = new Wuerfel(6);
         Wuerfel farbenWuerfel = new Wuerfel(spiel.getAlleSpieler());
         Spielfeld spielfeld = new Spielfeld(64);
+        Scanner scan = new Scanner(System.in);
         while (spiel.getGewinner() == null) {
             spiel.setFarbeAmZug(farbenWuerfel.farbeWuerfeln());
             for (Figur figur : spiel.getSpieler(spiel.getFarbeAmZug().toString()).getFiguren()) {
-                spiel.bewegeFigur(figur.toString(), augenWuerfel.zahlWuerfeln());
+                spiel.bewegeFigur(figur.getName(), augenWuerfel.zahlWuerfeln());
+                System.out.println(figur.getName());
                 System.out.println(figur.getPosition());
             }
+            scan.nextLine();
         }
     }
 }
