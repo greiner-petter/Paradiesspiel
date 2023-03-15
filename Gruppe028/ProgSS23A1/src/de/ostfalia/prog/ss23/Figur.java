@@ -1,24 +1,12 @@
 package de.ostfalia.prog.ss23;
 
-import de.ostfalia.prog.ss23.enums.Farbe;
-
 public class Figur {
-    private Farbe farbe;
     private int position;
     private String name;
 
-    public Figur(Farbe farbe, String name) {
-        setFarbe(farbe);
+    public Figur(String name) {
         setPosition(0);
         setName(name);
-    }
-
-    public void setFarbe(Farbe farbe) {
-        this.farbe = farbe;
-    }
-
-    public Farbe getFarbe() {
-        return farbe;
     }
 
     public void setPosition(int position) {
