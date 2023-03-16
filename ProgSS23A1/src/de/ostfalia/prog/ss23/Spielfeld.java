@@ -4,9 +4,11 @@ import de.ostfalia.prog.ss23.enums.Feld;
 import de.ostfalia.prog.ss23.felder.*;
 
 public class Spielfeld {
-    Felder[] felder;
+    private final int groesse;
+    private final Felder[] felder;
 
     public Spielfeld(int groesse) {
+        this.groesse = groesse;
         felder = new Felder[groesse];
         for (int i = 0; i < felder.length; i++) {
             felder[i] = new Standard();
@@ -36,5 +38,9 @@ public class Spielfeld {
 
     public Felder[] getFelder() {
         return felder;
+    }
+
+    public int getGroesse() {
+        return groesse;
     }
 }

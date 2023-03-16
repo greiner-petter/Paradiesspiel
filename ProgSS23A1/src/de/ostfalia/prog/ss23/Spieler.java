@@ -4,7 +4,7 @@ import de.ostfalia.prog.ss23.enums.Farbe;
 
 public class Spieler {
     private Farbe farbe;
-    private Figur[] figuren = new Figur[2];
+    private final Figur[] figuren = new Figur[2];
     private boolean gewinner;
     private boolean amZug;
 
