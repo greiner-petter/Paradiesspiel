@@ -125,7 +125,10 @@ public class Paradiesspiel implements IParadiesspiel {
             currentSpielerAmZug = spiel.getSpieler(spiel.getFarbeAmZug().toString());
             for (Figur figur : currentSpielerAmZug.getFiguren()) {
                 System.out.println(spiel.bewegeFigur(figur.getName(), augenWuerfel.zahlWuerfeln()));
-                spiel.getSpielfeld().getFelder()[spiel.getFigurposition(figur.getName())].ereignis(spiel.getSpieler(spiel.getFarbeAmZug().toString()), figur, 0);
+
+                spiel.getSpielfeld().getFelder()[spiel.getFigurposition(figur.getName())].
+                        ereignis(spiel.getSpieler(spiel.getFarbeAmZug().toString()), figur);
+
                 System.out.println(figur.getName());
                 System.out.println(figur.getPosition());
             }

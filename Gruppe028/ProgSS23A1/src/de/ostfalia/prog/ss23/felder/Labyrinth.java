@@ -12,7 +12,7 @@ public class Labyrinth extends Felder {
     }
 
     @Override
-    public void ereignis(Spieler spieler, Figur figur, int augenzahl) {
+    public void ereignis(Spieler spieler, Figur figur) {
 
     }
 

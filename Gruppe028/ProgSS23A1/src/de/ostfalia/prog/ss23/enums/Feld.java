@@ -8,8 +8,8 @@ public enum Feld {
     DESASTER(24, 41, 54),
     AUFSCHWUNG(52),
     NEUANFANG(58),
-    START(0),
-    PARADIES(63),
+    START,
+    PARADIES,
     STANDARD;
 
     private final int[] positions;
