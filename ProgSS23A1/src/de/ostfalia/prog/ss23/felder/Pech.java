@@ -12,10 +12,8 @@ public class Pech extends Felder {
     }
 
     @Override
-    public void ereignis(Spieler spieler, Figur figur, int augenzahl) {
-        for (int i = 0; i < augenzahl; i++) {
-            figur.setPosition(figur.getPosition() - 1);
-        }
+    public void ereignis(Spieler spieler, Figur figur) {
+        figur.setPosition(figur.getPosition() - 6);
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Bruecke extends Felder {
 
     //TODO
     @Override
-    public void ereignis(Spieler spieler, Figur figur, int augenzahl) {}
+    public void ereignis(Spieler spieler, Figur figur) {}
 
     @Override
     public Feld getFeld() {

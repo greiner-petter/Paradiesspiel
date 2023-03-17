@@ -12,8 +12,9 @@ public class Paradies extends Felder {
     }
 
     @Override
-    public void ereignis(Spieler spieler, Figur figur, int augenzahl) {
-        if (spieler.getFigur(spieler.getFarbe() + "-A").getPosition() == 63 && spieler.getFigur(spieler.getFarbe() + "-A").getPosition() == 63) {
+    public void ereignis(Spieler spieler, Figur figur) {
+        if (spieler.getFigur(spieler.getFarbe() + "-A").getPosition() == 63 &&
+                spieler.getFigur(spieler.getFarbe() + "-A").getPosition() == 63) {
             spieler.setGewinner(true);
         }
     }

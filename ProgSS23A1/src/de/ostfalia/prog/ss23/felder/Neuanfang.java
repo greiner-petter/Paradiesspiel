@@ -4,11 +4,11 @@ import de.ostfalia.prog.ss23.Figur;
 import de.ostfalia.prog.ss23.Spieler;
 import de.ostfalia.prog.ss23.enums.Feld;
 
-public class Standard extends Felder {
+public class Neuanfang extends Felder {
     Feld feld;
 
-    public Standard(){
-        feld = Feld.STANDARD;
+    public Neuanfang(){
+        feld = Feld.NEUANFANG;
     }
 
     @Override
