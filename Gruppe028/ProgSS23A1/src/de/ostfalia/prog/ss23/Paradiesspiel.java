@@ -9,15 +9,15 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Paradiesspiel implements IParadiesspiel {
-    private final Spieler[] spieler;
+    private final Spieler[] mitspieler;
     private final Feld[] spielfeld;
 
     public Paradiesspiel(Farbe... farben) {
         this.spielfeld = new Feld[64];
-        this.spieler = new Spieler[farben.length];
+        this.mitspieler = new Spieler[farben.length];
         int i = 0;
         for (Farbe farbe : farben) {
-            this.spieler[i] = new Spieler(farbe, 2);
+            this.mitspieler[i] = new Spieler(farbe, 2);
             i++;
         }
         spielfeld[0] = new Start(null);
@@ -37,7 +37,7 @@ public class Paradiesspiel implements IParadiesspiel {
             davor = spielfeld[j];
             spielfeld[j-1].setDanach(davor);
         }
-        for (Spieler spieler : spieler) {
+        for (Spieler spieler : mitspieler) {
             for (Figur figur : spieler.getFiguren()) {
                 spielfeld[0].figurAufFeldSetzen(figur);
             }
@@ -46,7 +46,7 @@ public class Paradiesspiel implements IParadiesspiel {
 
     @Override
     public Farbe getFarbeAmZug() {
-        for (Spieler spieler : spieler) {
+        for (Spieler spieler : mitspieler) {
             if (spieler.istAmZug()) {
                 return spieler.getFarbe();
             }
@@ -56,14 +56,14 @@ public class Paradiesspiel implements IParadiesspiel {
 
     @Override
     public void setFarbeAmZug(Farbe farbe) {
-        for (Spieler spieler : spieler) {
+        for (Spieler spieler : mitspieler) {
             spieler.setAmZug(spieler.getFarbe().equals(farbe));
         }
     }
 
     @Override
     public int getFigurposition(String figur) {
-        for (Spieler spieler : spieler) {
+        for (Spieler spieler : mitspieler) {
             if (spieler.getFigur(figur) != null){
                 return spieler.getFigur(figur).getPosition();
             }
@@ -92,7 +92,7 @@ public class Paradiesspiel implements IParadiesspiel {
 
     @Override
     public Farbe getGewinner() {
-        for (Spieler spieler : spieler) {
+        for (Spieler spieler : mitspieler) {
             if (spieler.istGewinner()) {
                 return spieler.getFarbe();
             }
@@ -102,9 +102,9 @@ public class Paradiesspiel implements IParadiesspiel {
 
     @Override
     public Farbe[] getAlleSpieler() {
-        Farbe[] alleSpieler = new Farbe[spieler.length];
+        Farbe[] alleSpieler = new Farbe[mitspieler.length];
         int i = 0;
-        for (Spieler spieler : spieler) {
+        for (Spieler spieler : mitspieler) {
             alleSpieler[i] = spieler.getFarbe();
             i++;
         }
@@ -112,7 +112,7 @@ public class Paradiesspiel implements IParadiesspiel {
     }
 
     public Spieler getSpieler(Farbe farbe) {
-        for (Spieler spieler : spieler) {
+        for (Spieler spieler : mitspieler) {
             if (spieler.getFarbe().equals(farbe)) {
                 return spieler;
             }
@@ -121,7 +121,7 @@ public class Paradiesspiel implements IParadiesspiel {
     }
 
     public Figur getFigur(String figur) {
-        for (Spieler spieler: spieler) {
+        for (Spieler spieler: mitspieler) {
             if (spieler.getFigur(figur) != null) {
                 return spieler.getFigur(figur);
             }
