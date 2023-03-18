@@ -1,22 +1,25 @@
 package de.ostfalia.prog.ss23.felder;
 
 import de.ostfalia.prog.ss23.Figur;
-import de.ostfalia.prog.ss23.Spieler;
-import de.ostfalia.prog.ss23.enums.Feld;
 
-public class Bruecke extends Felder {
-    Feld feld;
-
-    public Bruecke(){
-        feld = Feld.BRUECKE;
+public class Bruecke extends Feld {
+    public Bruecke(Feld davor) {
+        super(davor);
     }
 
-    //TODO
     @Override
-    public void ereignis(Spieler spieler, Figur figur) {}
+    public void ereignis() {}
 
     @Override
-    public Feld getFeld() {
-        return feld;
+    public boolean figurNachVorneBewegen(Figur figur) {
+        danach.getDanach().getDanach().getDanach().getDanach().getDanach().figurAufFeldSetzen(figur);
+        figurVonFeldEntfernen(figur);
+        figur.setPosition(figur.getPosition() + 6);
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Bruecke";
     }
 }
