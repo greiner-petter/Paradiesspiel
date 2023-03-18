@@ -4,15 +4,17 @@ import de.ostfalia.prog.ss23.enums.Farbe;
 
 public class Spieler {
     private Farbe farbe;
-    private final Figur[] figuren = new Figur[2];
-    private boolean gewinner;
+    private final Figur[] figuren;
     private boolean amZug;
 
-    public Spieler(Farbe farbe) {
+    public Spieler(Farbe farbe, int anzahlFiguren) {
         setFarbe(farbe);
-        this.figuren[0] = new Figur(farbe + "-A");
-        this.figuren[1] = new Figur(farbe + "-B");
-        setGewinner(false);
+        this.figuren = new Figur[anzahlFiguren];
+        char index = 'A';
+        for (int i = 0; i < anzahlFiguren; i++) {
+            figuren[i] = new Figur(farbe + "-" + index);
+            index++;
+        }
         setAmZug(false);
     }
 
@@ -24,19 +26,20 @@ public class Spieler {
         return farbe;
     }
 
-    public void setGewinner(boolean gewinner) {
-        this.gewinner = gewinner;
+    public boolean istGewinner() {
+        for (Figur figur : figuren) {
+            if (!figur.getParadies()) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public boolean isGewinner(){
-        return gewinner;
-    }
-
-    public void setAmZug(boolean amZug){
+    public void setAmZug(boolean amZug) {
         this.amZug = amZug;
     }
 
-    public boolean isAmZug(){
+    public boolean istAmZug() {
         return amZug;
     }
 
@@ -49,7 +52,7 @@ public class Spieler {
         return null;
     }
 
-    public Figur[] getFiguren(){
+    public Figur[] getFiguren() {
         return figuren;
     }
 }

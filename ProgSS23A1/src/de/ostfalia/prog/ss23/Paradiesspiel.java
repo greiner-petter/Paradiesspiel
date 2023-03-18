@@ -1,29 +1,53 @@
 package de.ostfalia.prog.ss23;
 
 import de.ostfalia.prog.ss23.enums.Farbe;
-import de.ostfalia.prog.ss23.felder.Felder;
+import de.ostfalia.prog.ss23.felder.*;
 import de.ostfalia.prog.ss23.interfaces.IParadiesspiel;
 
+import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Paradiesspiel implements IParadiesspiel {
     private final Spieler[] spieler;
-    private final Spielfeld spielfeld;
+    private final Feld[] spielfeld;
 
     public Paradiesspiel(Farbe... farben) {
-        this.spielfeld = new Spielfeld(64);
+        this.spielfeld = new Feld[64];
         this.spieler = new Spieler[farben.length];
         int i = 0;
         for (Farbe farbe : farben) {
-            this.spieler[i] = new Spieler(farbe);
+            this.spieler[i] = new Spieler(farbe, 2);
             i++;
+        }
+        spielfeld[0] = new Start(null);
+        Feld davor = spielfeld[0];
+        for (int j = 1; j < spielfeld.length; j++) {
+            if (j == spielfeld.length - 1) {
+                spielfeld[j] = new Paradies(davor);
+            } else if (Arrays.asList(14, 18, 27, 32, 36, 50).contains(j)) {
+                spielfeld[j] = new Glueck(davor);
+            } else if (j == 6) {
+                spielfeld[j] = new Bruecke(davor);
+            } else if (j == 52) {
+                spielfeld[j] = new Aufschwung(davor);
+            } else {
+                spielfeld[j] = new Standard(davor);
+            }
+            davor = spielfeld[j];
+            spielfeld[j-1].setDanach(davor);
+        }
+        for (Spieler spieler : spieler) {
+            for (Figur figur : spieler.getFiguren()) {
+                spielfeld[0].figurAufFeldSetzen(figur);
+            }
         }
     }
 
     @Override
     public Farbe getFarbeAmZug() {
         for (Spieler spieler : spieler) {
-            if (spieler.isAmZug()) {
+            if (spieler.istAmZug()) {
                 return spieler.getFarbe();
             }
         }
@@ -49,34 +73,27 @@ public class Paradiesspiel implements IParadiesspiel {
 
     @Override
     public boolean bewegeFigur(String figur, int... augenzahlen) {
-        boolean kannVorwaerts = true;
-        for (Spieler spieler : spieler) {
-            if (spieler.getFigur(figur) != null){
-                for (int augenzahl : augenzahlen) {
-                    for (int i = 0; i < augenzahl; i++) {
-                        if (kannVorwaerts){
-                            if (spieler.getFigur(figur).getPosition() < spielfeld.getGroesse() - 1) {
-                                spieler.getFigur(figur).setPosition(getFigurposition(figur) + 1);
-                            } else if (spieler.getFigur(figur).getPosition() == spielfeld.getGroesse() - 1)  {
-                                break;
-                            } else {
-                                kannVorwaerts = false;
-                            }
-                        } else {
-                            spieler.getFigur(figur).setPosition(getFigurposition(figur) - 1);
-                        }
-                    }
-                }
-                return true;
-            }
+        boolean kannNachVorne = true;
+        if (getFigurposition(figur) == spielfeld.length - 1) {
+            return  false;
         }
-        return false;
+        for (int augenzahl : augenzahlen) {
+            for (int i = 0; i < Math.abs(augenzahl); i++) {
+                if (kannNachVorne) {
+                    kannNachVorne = spielfeld[getFigurposition(figur)].figurNachVorneBewegen(getFigur(figur));
+                } else {
+                    spielfeld[getFigurposition(figur)].figurNachHintenBewegen(getFigur(figur));
+                }
+            }
+            spielfeld[getFigurposition(figur)].ereignis();
+        }
+        return true;
     }
 
     @Override
     public Farbe getGewinner() {
         for (Spieler spieler : spieler) {
-            if (spieler.isGewinner()) {
+            if (spieler.istGewinner()) {
                 return spieler.getFarbe();
             }
         }
@@ -94,16 +111,25 @@ public class Paradiesspiel implements IParadiesspiel {
         return alleSpieler;
     }
 
-    public Spieler getSpieler(String name) {
+    public Spieler getSpieler(Farbe farbe) {
         for (Spieler spieler : spieler) {
-            if (spieler.getFarbe().toString().equals(name)) {
+            if (spieler.getFarbe().equals(farbe)) {
                 return spieler;
             }
         }
         return null;
     }
 
-    public Spielfeld getSpielfeld(){
+    public Figur getFigur(String figur) {
+        for (Spieler spieler: spieler) {
+            if (spieler.getFigur(figur) != null) {
+                return spieler.getFigur(figur);
+            }
+        }
+        return null;
+    }
+
+    public Feld[] getSpielfeld() {
         return spielfeld;
     }
 
@@ -112,27 +138,42 @@ public class Paradiesspiel implements IParadiesspiel {
         Wuerfel augenWuerfel = new Wuerfel(6);
         Wuerfel farbenWuerfel = new Wuerfel(spiel.getAlleSpieler());
         Scanner scan = new Scanner(System.in);
-        for (Felder feld : spiel.getSpielfeld().getFelder()) {
-            System.out.println(feld.getFeld());
-        }
-        int i = 1;
-        Spieler currentSpielerAmZug;
+        Random rand = new Random();
+
+        int rundenCounter = 1;
+        String currentSpielerAmZug;
+        String figur;
+        String input;
+        int wurf;
+
         while (spiel.getGewinner() == null) {
-            System.out.println("round " + i);
-            i++;
+            for (Feld feld : spiel.getSpielfeld()) {
+                System.out.println(feld.toString() + feld.figurenToString());
+            }
+            System.out.println("Runde " + rundenCounter);
+
             spiel.setFarbeAmZug(farbenWuerfel.farbeWuerfeln());
             System.out.println("Farbe am zug: " + spiel.getFarbeAmZug());
-            currentSpielerAmZug = spiel.getSpieler(spiel.getFarbeAmZug().toString());
-            for (Figur figur : currentSpielerAmZug.getFiguren()) {
-                System.out.println(spiel.bewegeFigur(figur.getName(), augenWuerfel.zahlWuerfeln()));
 
-                spiel.getSpielfeld().getFelder()[spiel.getFigurposition(figur.getName())].
-                        ereignis(spiel.getSpieler(spiel.getFarbeAmZug().toString()), figur);
+            currentSpielerAmZug = spiel.getSpieler(spiel.getFarbeAmZug()).getFarbe().toString();
 
-                System.out.println(figur.getName());
-                System.out.println(figur.getPosition());
+            System.out.println("Figur A oder B?");
+            input = scan.nextLine().toUpperCase();
+
+            wurf = augenWuerfel.zahlWuerfeln();
+            System.out.println("Wurf: " + wurf);
+
+            if (input.equals("A")) {
+                figur = currentSpielerAmZug + "-A";
+            } else if (input.equals("B")){
+                figur = currentSpielerAmZug + "-B";
+            } else {
+                figur = spiel.getSpieler(spiel.getFarbeAmZug()).getFiguren()[rand.nextInt(2)].getName();
             }
-//            scan.nextLine();
+            spiel.bewegeFigur(figur, wurf);
+
+            System.out.println(figur + " steht auf Feld " + spiel.getFigurposition(figur));
+            rundenCounter++;
         }
         System.out.println(spiel.getGewinner() + " gewinnt");
         scan.close();
