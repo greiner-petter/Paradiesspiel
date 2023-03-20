@@ -9,11 +9,10 @@ public class Bruecke extends Feld {
 
     @Override
     public void ereignis() {
-        for (Figur figur : getFigurenAufFeld()  ) {
-            getDanach().getDanach().getDanach().getDanach().getDanach().getDanach().figurAufFeldSetzen(figur);
-            figurVonFeldEntfernen(figur);
-            figur.setPosition(figur.getPosition() + 6);
-        }
+        Figur figur = getFigurenAufFeld().get(getFigurenAufFeld().size() - 1);
+        getDanach().getDanach().getDanach().getDanach().getDanach().getDanach().figurAufFeldSetzen(figur);
+        figurVonFeldEntfernen(figur);
+        figur.setPosition(figur.getPosition() + 6);
     }
 
     @Override
