@@ -8,13 +8,15 @@ public class Bruecke extends Feld {
     }
 
     @Override
-    public void ereignis() {}
+    public void ereignis() {
+        this.figurNachVorneBewegen(getFigurenAufFeld().get(getFigurenAufFeld().size() - 1));
+    }
 
     @Override
     public boolean figurNachVorneBewegen(Figur figur) {
-        getDanach().getDanach().getDanach().getDanach().getDanach().getDanach().getDanach().figurAufFeldSetzen(figur);
+        getDanach().getDanach().getDanach().getDanach().getDanach().getDanach().figurAufFeldSetzen(figur);
         figurVonFeldEntfernen(figur);
-        figur.setPosition(figur.getPosition() + 7);
+        figur.setPosition(figur.getPosition() + 6);
         return true;
     }
 
