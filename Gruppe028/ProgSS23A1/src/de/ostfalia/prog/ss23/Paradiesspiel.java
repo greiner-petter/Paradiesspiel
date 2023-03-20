@@ -116,7 +116,7 @@ public class Paradiesspiel implements IParadiesspiel {
         if (getGewinner() != null) {
             return false;
         }
-        if (getFigur(figur).getParadies()) {
+        if (getFigur(figur).getPosition() == spielfeld.length - 1) {
             return false;
         }
         boolean kannNachVorne = true;
