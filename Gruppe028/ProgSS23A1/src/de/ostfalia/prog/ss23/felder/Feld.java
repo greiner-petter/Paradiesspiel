@@ -58,7 +58,7 @@ public abstract class Feld {
         if (davor != null) {
             davor.figurAufFeldSetzen(figur);
             figurVonFeldEntfernen(figur);
-            figur.setPosition(danach.getPosition());
+            figur.setPosition(davor.getPosition());
         }
     }
 
