@@ -5,7 +5,6 @@ import de.ostfalia.prog.ss23.enums.Farbe;
 public class Spieler {
     private Farbe farbe;
     private final Figur[] figuren;
-    private boolean amZug;
 
     public Spieler(Farbe farbe, int anzahlFiguren) {
         setFarbe(farbe);
@@ -15,7 +14,6 @@ public class Spieler {
             figuren[i] = new Figur(farbe + "-" + index);
             index++;
         }
-        setAmZug(false);
     }
 
     public void setFarbe(Farbe farbe) {
@@ -35,13 +33,6 @@ public class Spieler {
         return true;
     }
 
-    public void setAmZug(boolean amZug) {
-        this.amZug = amZug;
-    }
-
-    public boolean istAmZug() {
-        return amZug;
-    }
 
     public Figur getFigur(String name) {
         for (Figur figur : figuren) {

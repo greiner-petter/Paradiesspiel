@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Paradiesspiel implements IParadiesspiel {
     private final Spieler[] mitspieler;
     private final Feld[] spielfeld;
+    private Farbe farbeAmZug;
 
     public Paradiesspiel(Farbe... farben) {
         this.spielfeld = new Feld[64];
@@ -80,19 +81,12 @@ public class Paradiesspiel implements IParadiesspiel {
 
     @Override
     public Farbe getFarbeAmZug() {
-        for (Spieler spieler : mitspieler) {
-            if (spieler.istAmZug()) {
-                return spieler.getFarbe();
-            }
-        }
-        return null;
+        return farbeAmZug;
     }
 
     @Override
     public void setFarbeAmZug(Farbe farbe) {
-        for (Spieler spieler : mitspieler) {
-            spieler.setAmZug(spieler.getFarbe().equals(farbe));
-        }
+        this.farbeAmZug = farbe;
     }
 
     @Override
