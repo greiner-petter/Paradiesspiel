@@ -3,8 +3,8 @@ package de.ostfalia.prog.ss23.felder;
 import de.ostfalia.prog.ss23.Figur;
 
 public class Bruecke extends Feld {
-    public Bruecke(Feld davor) {
-        super(davor);
+    public Bruecke(Feld davor, int position) {
+        super(davor, position);
     }
 
     @Override
@@ -12,7 +12,7 @@ public class Bruecke extends Feld {
 
     @Override
     public boolean figurNachVorneBewegen(Figur figur) {
-        danach.getDanach().getDanach().getDanach().getDanach().getDanach().getDanach().figurAufFeldSetzen(figur);
+        getDanach().getDanach().getDanach().getDanach().getDanach().getDanach().getDanach().figurAufFeldSetzen(figur);
         figurVonFeldEntfernen(figur);
         figur.setPosition(figur.getPosition() + 7);
         return true;

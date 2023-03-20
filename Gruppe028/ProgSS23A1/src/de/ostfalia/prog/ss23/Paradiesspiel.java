@@ -20,26 +20,11 @@ public class Paradiesspiel implements IParadiesspiel {
             this.mitspieler[i] = new Spieler(farbe, 2);
             i++;
         }
-        spielfeld[0] = new Start(null);
-        Feld davor = spielfeld[0];
-        for (int j = 1; j < spielfeld.length; j++) {
-            if (j == spielfeld.length - 1) {
-                spielfeld[j] = new Paradies(davor);
-            } else if (Arrays.asList(14, 18, 27, 32, 36, 50).contains(j)) {
-                spielfeld[j] = new Glueck(davor);
-            } else if (j == 6) {
-                spielfeld[j] = new Bruecke(davor);
-            } else if (j == 52) {
-                spielfeld[j] = new Aufschwung(davor);
-            } else {
-                spielfeld[j] = new Standard(davor);
-            }
-            davor = spielfeld[j];
-            spielfeld[j-1].setDanach(davor);
-        }
+        spielfeldErstellen();
         for (Spieler spieler : mitspieler) {
             for (Figur figur : spieler.getFiguren()) {
                 spielfeld[0].figurAufFeldSetzen(figur);
+                figur.setPosition(0);
             }
         }
     }
@@ -47,6 +32,43 @@ public class Paradiesspiel implements IParadiesspiel {
     public Paradiesspiel(String conf, Farbe... farben) {
         this.spielfeld = new Feld[64];
         this.mitspieler = new Spieler[farben.length];
+        int i = 0;
+        for (Farbe farbe : farben) {
+            this.mitspieler[i] = new Spieler(farbe, 2);
+            i++;
+        }
+        spielfeldErstellen();
+        String[] confSplit;
+        String[] figurUndPosition;
+        confSplit = conf.split(",");
+        for (String config : confSplit) {
+            config = config.trim();
+            figurUndPosition = config.split(":");
+            Figur figur = getFigur(figurUndPosition[0]);
+            int position = Integer.parseInt(figurUndPosition[1]);
+            spielfeld[position].figurAufFeldSetzen(figur);
+            figur.setPosition(position);
+        }
+    }
+
+    public void spielfeldErstellen() {
+        spielfeld[0] = new Start(null, 0);
+        Feld davor = spielfeld[0];
+        for (int i = 1; i < spielfeld.length; i++) {
+            if (i == spielfeld.length - 1) {
+                spielfeld[i] = new Paradies(davor, i);
+            } else if (Arrays.asList(14, 18, 27, 32, 36, 50).contains(i)) {
+                spielfeld[i] = new Glueck(davor, i);
+            } else if (i == 6) {
+                spielfeld[i] = new Bruecke(davor, i);
+            } else if (i == 52) {
+                spielfeld[i] = new Aufschwung(davor, i);
+            } else {
+                spielfeld[i] = new Standard(davor, i);
+            }
+            davor = spielfeld[i];
+            spielfeld[i-1].setDanach(davor);
+        }
     }
 
     @Override
@@ -79,6 +101,9 @@ public class Paradiesspiel implements IParadiesspiel {
     @Override
     public boolean bewegeFigur(String figur, int... augenzahlen) {
         boolean kannNachVorne = true;
+        if (getFigurposition(figur) == -1) {
+            return false;
+        }
         for (int augenzahl : augenzahlen) {
             if (getFigurposition(figur) == spielfeld.length - 1) {
                 return  false;

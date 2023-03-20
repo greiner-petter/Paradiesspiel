@@ -5,13 +5,15 @@ import de.ostfalia.prog.ss23.Figur;
 import java.util.ArrayList;
 
 public abstract class Feld {
-    Feld davor;
-    Feld danach;
-    ArrayList<Figur> figurenAufFeld;
+    private final Feld davor;
+    private Feld danach;
+    private ArrayList<Figur> figurenAufFeld;
+    private final int position;
 
-    public Feld(Feld davor) {
+    public Feld(Feld davor, int position) {
         this.davor = davor;
         this.figurenAufFeld = new ArrayList<Figur>();
+        this.position = position;
     }
 
     public abstract void ereignis();
@@ -24,6 +26,10 @@ public abstract class Feld {
         this.danach = danach;
     }
 
+    public int getPosition(){
+        return position;
+    }
+
     public void figurAufFeldSetzen(Figur figur) {
         figurenAufFeld.add(figur);
     }
@@ -32,11 +38,15 @@ public abstract class Feld {
         figurenAufFeld.remove(figur);
     }
 
+    public ArrayList<Figur> getFigurenAufFeld() {
+        return figurenAufFeld;
+    }
+
     public boolean figurNachVorneBewegen(Figur figur) {
         if (danach != null) {
             danach.figurAufFeldSetzen(figur);
             figurVonFeldEntfernen(figur);
-            figur.setPosition(figur.getPosition() + 1);
+            figur.setPosition(danach.getPosition());
             return true;
         } else {
             figurNachHintenBewegen(figur);
@@ -48,7 +58,7 @@ public abstract class Feld {
         if (davor != null) {
             davor.figurAufFeldSetzen(figur);
             figurVonFeldEntfernen(figur);
-            figur.setPosition(figur.getPosition() - 1);
+            figur.setPosition(danach.getPosition());
         }
     }
 
