@@ -107,16 +107,10 @@ public class Paradiesspiel implements IParadiesspiel {
 
     @Override
     public boolean bewegeFigur(String figur, int... augenzahlen) {
-        if (getFigurposition(figur) == -1) {
-            return false;
-        }
-        if (!figur.contains(getFarbeAmZug().toString())) {
-            return false;
-        }
-        if (getGewinner() != null) {
-            return false;
-        }
-        if (getFigur(figur).getPosition() == spielfeld.length - 1) {
+        if (getFigurposition(figur) == -1 ||
+                !figur.contains(getFarbeAmZug().toString()) ||
+                    getGewinner() != null ||
+                        getFigur(figur).getPosition() == spielfeld.length - 1) {
             return false;
         }
         boolean kannNachVorne = true;
@@ -182,7 +176,7 @@ public class Paradiesspiel implements IParadiesspiel {
     }
 
     public static void main(String[] args) {
-        Paradiesspiel spiel = new Paradiesspiel("GELB-A:15, GELB-B:21, BLAU-B:28", Farbe.BLAU, Farbe.GELB);
+        Paradiesspiel spiel = new Paradiesspiel(Farbe.BLAU, Farbe.GRUEN, Farbe.GELB, Farbe.ROT);
         Wuerfel augenWuerfel = new Wuerfel(6);
         Wuerfel farbenWuerfel = new Wuerfel(spiel.getAlleSpieler());
         Scanner scan = new Scanner(System.in);
