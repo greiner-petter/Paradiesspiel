@@ -109,15 +109,12 @@ public class Paradiesspiel implements IParadiesspiel {
         if (getGewinner() != null) {
             return false;
         }
-        if (getFigur(figur).getParadies()) {
+        if (getFigur(figur).getPosition() == spielfeld.length - 1) {
             return false;
         }
         boolean kannNachVorne = true;
         getFigur(figur).setWurf(augenzahlen);
         for (int augenzahl : augenzahlen) {
-            if (getFigur(figur).getPosition() == spielfeld.length - 1) {
-                kannNachVorne = false;
-            }
             for (int i = 0; i < Math.abs(augenzahl); i++) {
                 if (kannNachVorne) {
                     kannNachVorne = spielfeld[getFigurposition(figur)].figurNachVorneBewegen(getFigur(figur));
@@ -211,7 +208,7 @@ public class Paradiesspiel implements IParadiesspiel {
             } else {
                 figur = spiel.getSpieler(spiel.getFarbeAmZug()).getFiguren()[rand.nextInt(2)].getName();
             }
-            spiel.bewegeFigur("BLAU-B", 2, 2);
+            spiel.bewegeFigur(figur, wurf);
 
             System.out.println(figur + " steht auf Feld " + spiel.getFigurposition(figur));
             rundenCounter++;
