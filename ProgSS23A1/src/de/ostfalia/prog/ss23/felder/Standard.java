@@ -1,8 +1,8 @@
 package de.ostfalia.prog.ss23.felder;
 
 public class Standard extends Feld {
-    public Standard(Feld davor) {
-        super(davor);
+    public Standard(Feld davor, int position) {
+        super(davor, position);
     }
 
     @Override
