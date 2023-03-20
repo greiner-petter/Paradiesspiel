@@ -12,6 +12,29 @@ package de.ostfalia.prog.ss23.enums;
  *
  */
 public enum Farbe {
-	BLAU, GELB, GRUEN, ROT, SCHWARZ, WEISS;
+	/**
+	 *
+	 */
+	BLAU,
+	/**
+	 *
+	 */
+ 	GELB,
+	/**
+	 *
+	 */
+ 	GRUEN,
+	/**
+	 *
+	 */
+ 	ROT,
+	/**
+	 *
+	 */
+ 	SCHWARZ,
+	/**
+	 *
+	 */
+ 	WEISS;
 
 }

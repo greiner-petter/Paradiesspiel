@@ -9,11 +9,12 @@ public class Glueck extends Feld {
 
     @Override
     public void ereignis() {
-//        for (Figur figur : figurenAufFeld) {
-//            for (int i = 0; i < 6; i++) {
-//                figurNachVorneBewegen(figur);
-//            }
-//        }
+        Feld feld = this;
+        Figur figur = figurenAufFeld.get(figurenAufFeld.size() - 1);
+        for (int i = 0; i < 6; i++) {
+            feld.figurNachVorneBewegen(figur);
+            feld = feld.getDanach();
+        }
     }
 
     @Override

@@ -4,11 +4,13 @@ public class Figur {
     private int position;
     private String name;
     private boolean paradies;
+    private int[] wurf;
 
     public Figur(String name) {
         setPosition(0);
         setName(name);
         setParadies(false);
+        setWurf(new int[]{0, 0});
     }
 
     public void setPosition(int position) {
@@ -33,5 +35,13 @@ public class Figur {
 
     public boolean getParadies() {
         return paradies;
+    }
+
+    public void setWurf(int[] wurf) {
+        this.wurf = wurf;
+    }
+
+    public int[] getWurf() {
+        return wurf;
     }
 }

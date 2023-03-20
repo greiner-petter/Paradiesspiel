@@ -7,17 +7,14 @@ import java.util.ArrayList;
 public abstract class Feld {
     Feld davor;
     Feld danach;
-    ArrayList<Figur> figurenAufFeld = new ArrayList<Figur>();
+    ArrayList<Figur> figurenAufFeld;
 
     public Feld(Feld davor) {
         this.davor = davor;
+        this.figurenAufFeld = new ArrayList<Figur>();
     }
 
     public abstract void ereignis();
-
-    public Feld getDavor() {
-        return davor;
-    }
 
     public Feld getDanach() {
         return danach;
