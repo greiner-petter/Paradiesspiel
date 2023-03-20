@@ -115,6 +115,9 @@ public class Paradiesspiel implements IParadiesspiel {
         boolean kannNachVorne = true;
         getFigur(figur).setWurf(augenzahlen);
         for (int augenzahl : augenzahlen) {
+            if (getFigur(figur).getPosition() == spielfeld.length - 1) {
+                kannNachVorne = false;
+            }
             for (int i = 0; i < Math.abs(augenzahl); i++) {
                 if (kannNachVorne) {
                     kannNachVorne = spielfeld[getFigurposition(figur)].figurNachVorneBewegen(getFigur(figur));
