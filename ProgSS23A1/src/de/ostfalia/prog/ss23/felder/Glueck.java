@@ -11,9 +11,11 @@ public class Glueck extends Feld {
     public void ereignis() {
         Feld feld = this;
         Figur figur = getFigurenAufFeld().get(getFigurenAufFeld().size() - 1);
-        for (int i = 0; i < 6; i++) {
-            feld.figurNachVorneBewegen(figur);
-            feld = feld.getDanach();
+        for (int wurf : figur.getWurf()) {
+            for (int i = 0; i < wurf; i++) {
+                feld.figurNachVorneBewegen(figur);
+                feld = feld.getDanach();
+            }
         }
     }
 

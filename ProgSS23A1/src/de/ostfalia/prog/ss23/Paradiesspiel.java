@@ -104,10 +104,10 @@ public class Paradiesspiel implements IParadiesspiel {
         if (getFigurposition(figur) == -1) {
             return false;
         }
+        if (!figur.contains(getFarbeAmZug().toString())) {
+            return false;
+        }
         for (int augenzahl : augenzahlen) {
-            if (getFigurposition(figur) == spielfeld.length - 1) {
-                return  false;
-            }
             for (int i = 0; i < Math.abs(augenzahl); i++) {
                 if (kannNachVorne) {
                     kannNachVorne = spielfeld[getFigurposition(figur)].figurNachVorneBewegen(getFigur(figur));
