@@ -174,7 +174,7 @@ public class Paradiesspiel implements IParadiesspiel {
     }
 
     public static void main(String[] args) {
-        Paradiesspiel spiel = new Paradiesspiel(Farbe.BLAU, Farbe.GELB, Farbe.GRUEN);
+        Paradiesspiel spiel = new Paradiesspiel("GELB-A:15, GELB-B:21, BLAU-B:28", Farbe.BLAU, Farbe.GELB);
         Wuerfel augenWuerfel = new Wuerfel(6);
         Wuerfel farbenWuerfel = new Wuerfel(spiel.getAlleSpieler());
         Scanner scan = new Scanner(System.in);
@@ -211,7 +211,7 @@ public class Paradiesspiel implements IParadiesspiel {
             } else {
                 figur = spiel.getSpieler(spiel.getFarbeAmZug()).getFiguren()[rand.nextInt(2)].getName();
             }
-            spiel.bewegeFigur(figur, wurf);
+            spiel.bewegeFigur("BLAU-B", 2, 2);
 
             System.out.println(figur + " steht auf Feld " + spiel.getFigurposition(figur));
             rundenCounter++;

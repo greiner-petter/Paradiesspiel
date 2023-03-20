@@ -17,6 +17,7 @@ public class Glueck extends Feld {
                 feld = feld.getDanach();
             }
         }
+        feld.ereignis();
     }
 
     @Override
