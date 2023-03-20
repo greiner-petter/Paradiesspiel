@@ -44,6 +44,11 @@ public class Paradiesspiel implements IParadiesspiel {
         }
     }
 
+    public Paradiesspiel(String conf, Farbe... farben) {
+        this.spielfeld = new Feld[64];
+        this.mitspieler = new Spieler[farben.length];
+    }
+
     @Override
     public Farbe getFarbeAmZug() {
         for (Spieler spieler : mitspieler) {
@@ -74,10 +79,10 @@ public class Paradiesspiel implements IParadiesspiel {
     @Override
     public boolean bewegeFigur(String figur, int... augenzahlen) {
         boolean kannNachVorne = true;
-        if (getFigurposition(figur) == spielfeld.length - 1) {
-            return  false;
-        }
         for (int augenzahl : augenzahlen) {
+            if (getFigurposition(figur) == spielfeld.length - 1) {
+                return  false;
+            }
             for (int i = 0; i < Math.abs(augenzahl); i++) {
                 if (kannNachVorne) {
                     kannNachVorne = spielfeld[getFigurposition(figur)].figurNachVorneBewegen(getFigur(figur));
@@ -87,6 +92,7 @@ public class Paradiesspiel implements IParadiesspiel {
             }
             spielfeld[getFigurposition(figur)].ereignis();
         }
+        getFigur(figur).setWurf(augenzahlen);
         return true;
     }
 
@@ -144,7 +150,7 @@ public class Paradiesspiel implements IParadiesspiel {
         String currentSpielerAmZug;
         String figur;
         String input;
-        int wurf;
+        int[] wurf = new int[2];
 
         while (spiel.getGewinner() == null) {
             for (Feld feld : spiel.getSpielfeld()) {
@@ -160,8 +166,9 @@ public class Paradiesspiel implements IParadiesspiel {
             System.out.println("Figur A oder B?");
             input = scan.nextLine().toUpperCase();
 
-            wurf = augenWuerfel.zahlWuerfeln();
-            System.out.println("Wurf: " + wurf);
+            wurf[0] = augenWuerfel.zahlWuerfeln();
+            wurf[1] = augenWuerfel.zahlWuerfeln();
+            System.out.println("Wurf: " + wurf[0] + ", " + wurf[1]);
 
             if (input.equals("A")) {
                 figur = currentSpielerAmZug + "-A";
