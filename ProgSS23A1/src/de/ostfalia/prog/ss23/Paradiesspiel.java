@@ -49,6 +49,13 @@ public class Paradiesspiel implements IParadiesspiel {
             spielfeld[position].figurAufFeldSetzen(figur);
             figur.setPosition(position);
         }
+        for (Spieler spieler : mitspieler) {
+            for (Figur figur : spieler.getFiguren()) {
+                if (figur.getPosition() == 0) {
+                    spielfeld[0].figurAufFeldSetzen(figur);
+                }
+            }
+        }
     }
 
     public void spielfeldErstellen() {
@@ -109,13 +116,14 @@ public class Paradiesspiel implements IParadiesspiel {
         if (getGewinner() != null) {
             return false;
         }
-        if (getFigur(figur).getPosition() == spielfeld.length - 1) {
+        if (getFigur(figur).getParadies()) {
             return false;
         }
         boolean kannNachVorne = true;
         getFigur(figur).setWurf(augenzahlen);
         for (int augenzahl : augenzahlen) {
-            if (getFigur(figur).getPosition() == spielfeld.length - 1) {
+            if (getFigur(figur).getParadies()) {
+                getFigur(figur).setParadies(false);
                 kannNachVorne = false;
             }
             for (int i = 0; i < Math.abs(augenzahl); i++) {
