@@ -13,6 +13,11 @@ public class Paradiesspiel implements IParadiesspiel {
     private final Feld[] spielfeld;
     private Farbe farbeAmZug;
 
+    /**
+     * Konstruktor erstellt die Spieler und das Spielfeld und setzt alle Figuren der Spieler auf das Startfeld
+     *
+     * @param farben Farben der Spieler
+     */
     public Paradiesspiel(Farbe... farben) {
         this.spielfeld = new Feld[64];
         this.mitspieler = new Spieler[farben.length];
@@ -30,6 +35,13 @@ public class Paradiesspiel implements IParadiesspiel {
         }
     }
 
+    /**
+     * Konstruktor erstellt die Spieler und das Spielfeld und setzt die in conf angegebenen Figuren auf die jeweiligen
+     * Felder und den rest der Figuren der Spieler auf das Startfeld
+     *
+     * @param conf Bestimmte Figuren mit Position
+     * @param farben Farben der Spieler
+     */
     public Paradiesspiel(String conf, Farbe... farben) {
         this.spielfeld = new Feld[64];
         this.mitspieler = new Spieler[farben.length];
@@ -59,6 +71,9 @@ public class Paradiesspiel implements IParadiesspiel {
         }
     }
 
+    /**
+     * Erstellt das Spielfeld
+     */
     public void spielfeldErstellen() {
         spielfeld[0] = new Start(null, 0);
         Feld davor = spielfeld[0];
@@ -89,6 +104,12 @@ public class Paradiesspiel implements IParadiesspiel {
         this.farbeAmZug = farbe;
     }
 
+    /**
+     * Gibt die Position der übergebenen Figur zurück, falls diese nicht existiert wird -1 zurückgegeben
+     *
+     * @param figur Der Name der gesuchten Figur (z.B. "BLAU-A")
+     * @return Die Position der Figur
+     */
     @Override
     public int getFigurposition(String figur) {
         for (Spieler spieler : mitspieler) {
@@ -99,6 +120,13 @@ public class Paradiesspiel implements IParadiesspiel {
         return -1;
     }
 
+    /**
+     * Bewegt die übergebene Figur um die übergebenen Würfe
+     *
+     * @param figur       Der Name der Figur, welche bewegt werden soll (z.B. "BLAU-A")
+     * @param augenzahlen Eine (oder mehrere) zufällig gewürfelte Zahl(en)
+     * @return ob die figur bewegt werden konnte
+     */
     @Override
     public boolean bewegeFigur(String figur, int... augenzahlen) {
         if (getFigurposition(figur) == -1 ||
@@ -126,6 +154,11 @@ public class Paradiesspiel implements IParadiesspiel {
         return true;
     }
 
+    /**
+     * Gibt zurück die Farbe des gewinners, falls noch keiner gewonnen hat, wird null zurückgegeben
+     *
+     * @return den Gewinner
+     */
     @Override
     public Farbe getGewinner() {
         for (Spieler spieler : mitspieler) {
@@ -136,6 +169,9 @@ public class Paradiesspiel implements IParadiesspiel {
         return null;
     }
 
+    /**
+     * @return alle Spieler als Farben-Liste
+     */
     @Override
     public Farbe[] getAlleSpieler() {
         Farbe[] alleSpieler = new Farbe[mitspieler.length];
@@ -147,6 +183,10 @@ public class Paradiesspiel implements IParadiesspiel {
         return alleSpieler;
     }
 
+    /**
+     * @param farbe die Farbe des gesuchten Spielers
+     * @return den Spieler dessen Farbe übergeben wurde als Objekt
+     */
     public Spieler getSpieler(Farbe farbe) {
         for (Spieler spieler : mitspieler) {
             if (spieler.getFarbe().equals(farbe)) {
@@ -156,6 +196,10 @@ public class Paradiesspiel implements IParadiesspiel {
         return null;
     }
 
+    /**
+     * @param figur die Figur als String
+     * @return die Figur als Objekt
+     */
     public Figur getFigur(String figur) {
         for (Spieler spieler: mitspieler) {
             if (spieler.getFigur(figur) != null) {
@@ -171,8 +215,8 @@ public class Paradiesspiel implements IParadiesspiel {
 
     public static void main(String[] args) {
         Paradiesspiel spiel = new Paradiesspiel(Farbe.BLAU, Farbe.GRUEN, Farbe.GELB, Farbe.ROT);
-        Wuerfel augenWuerfel = new Wuerfel(6);
-        Wuerfel farbenWuerfel = new Wuerfel(spiel.getAlleSpieler());
+        Wuerfel zahlenwuerfel = new Wuerfel(6);
+        Wuerfel farbenwuerfel = new Wuerfel(spiel.getAlleSpieler());
         Scanner scan = new Scanner(System.in);
         Random rand = new Random();
 
@@ -188,7 +232,7 @@ public class Paradiesspiel implements IParadiesspiel {
             }
             System.out.println("Runde " + rundenCounter);
 
-            spiel.setFarbeAmZug(farbenWuerfel.farbeWuerfeln());
+            spiel.setFarbeAmZug(farbenwuerfel.farbeWuerfeln());
             System.out.println("Farbe am zug: " + spiel.getFarbeAmZug());
 
             currentSpielerAmZug = spiel.getSpieler(spiel.getFarbeAmZug()).getFarbe().toString();
@@ -196,8 +240,8 @@ public class Paradiesspiel implements IParadiesspiel {
             System.out.println("Figur A oder B?");
             input = scan.nextLine().toUpperCase();
 
-            wurf[0] = augenWuerfel.zahlWuerfeln();
-            wurf[1] = augenWuerfel.zahlWuerfeln();
+            wurf[0] = zahlenwuerfel.zahlWuerfeln();
+            wurf[1] = zahlenwuerfel.zahlWuerfeln();
             System.out.println("Wurf: " + wurf[0] + ", " + wurf[1]);
 
             if (input.equals("A")) {

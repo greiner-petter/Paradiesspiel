@@ -7,6 +7,9 @@ public class Bruecke extends Feld {
         super(davor, position);
     }
 
+    /**
+     * Bewegt die Figur 6 Felder nach vorne, wenn diese auf dem Feld landet
+     */
     @Override
     public void ereignis() {
         Figur figur = getFigurenAufFeld().get(getFigurenAufFeld().size() - 1);
@@ -15,6 +18,12 @@ public class Bruecke extends Feld {
         figur.setPosition(figur.getPosition() + 6);
     }
 
+    /**
+     * Bewegt die Figur 6 Felder nach vorne, wenn diese über das Feld zieht
+     *
+     * @param figur die Figur, die bewegt wird
+     * @return ob die Figur sich nach vorne bewegen kann
+     */
     @Override
     public boolean figurNachVorneBewegen(Figur figur) {
         getDanach().getDanach().getDanach().getDanach().getDanach().getDanach().getDanach().figurAufFeldSetzen(figur);

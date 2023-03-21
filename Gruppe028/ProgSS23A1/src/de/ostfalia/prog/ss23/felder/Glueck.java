@@ -7,6 +7,9 @@ public class Glueck extends Feld {
         super(davor, position);
     }
 
+    /**
+     * Bewegt die Figur um den Wurf nochmal nach vorne
+     */
     @Override
     public void ereignis() {
         Feld feld = this;

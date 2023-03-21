@@ -6,31 +6,47 @@ import java.util.Random;
 
 public class Wuerfel {
     Random rand = new Random();
-    private int augenWuerfel;
-    private Farbe[] farbenWuerfel;
+    private int zahlenwuerfel;
+    private Farbe[] farbenwuerfel;
 
+    /**
+     * Konstruktor für den Zahlenwürfel
+     *
+     * @param augen anzahl augen die gewürfelt werden können
+     */
     public Wuerfel(int augen) {
-        this.augenWuerfel = augen;
+        this.zahlenwuerfel = augen;
     }
 
+    /**
+     * Konstruktor für den Farbenwürfel
+     *
+     * @param farben alle Farben die gewürfelt werden können
+     */
     public Wuerfel(Farbe[] farben) {
-        this.farbenWuerfel = new Farbe[farben.length];
+        this.farbenwuerfel = new Farbe[farben.length];
         int i = 0;
         for (Farbe farbe : farben) {
-            this.farbenWuerfel[i] = farbe;
+            this.farbenwuerfel[i] = farbe;
             i++;
         }
     }
 
+    /**
+     * @return eine zufällige Zahl
+     */
     public int zahlWuerfeln() {
         int min = 1;
-        int max = augenWuerfel;
+        int max = zahlenwuerfel;
         return rand.nextInt(max - min + 1) + min;
     }
 
+    /**
+     * @return eine zufällige Farbe
+     */
     public Farbe farbeWuerfeln() {
         int min = 0;
-        int max = farbenWuerfel.length - 1;
-        return farbenWuerfel[rand.nextInt(max - min + 1) + min];
+        int max = farbenwuerfel.length - 1;
+        return farbenwuerfel[rand.nextInt(max - min + 1) + min];
     }
 }

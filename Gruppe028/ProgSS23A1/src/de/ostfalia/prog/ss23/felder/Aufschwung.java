@@ -9,6 +9,9 @@ public class Aufschwung extends Feld {
         super(davor, position);
     }
 
+    /**
+     * Wenn das Feld mit einem doppel 6 Wurf erreicht wurde, wird die Figur in das Paradies bewegt
+     */
     @Override
     public void ereignis() {
         Feld feld = this;
