@@ -30,10 +30,16 @@ public abstract class Feld {
         return position;
     }
 
+    /**
+     * @param figur setzt die übergebene Figur auf das Feld
+     */
     public void figurAufFeldSetzen(Figur figur) {
         figurenAufFeld.add(figur);
     }
 
+    /**
+     * @param figur entfernt die übergebene Figur von dem Feld
+     */
     public void figurVonFeldEntfernen(Figur figur) {
         figurenAufFeld.remove(figur);
     }
@@ -42,6 +48,12 @@ public abstract class Feld {
         return figurenAufFeld;
     }
 
+    /**
+     * Bewegt die übergebene Figur auf das nächste Feld
+     *
+     * @param figur die Figur die bewegt werden soll
+     * @return ob die Figur nach vorne bewegt werden kann
+     */
     public boolean figurNachVorneBewegen(Figur figur) {
         if (danach != null) {
             danach.figurAufFeldSetzen(figur);
@@ -54,6 +66,11 @@ public abstract class Feld {
         }
     }
 
+    /**
+     * Bewegt die übergebene Figur auf das vorherige Feld
+     *
+     * @param figur die Figur die bewegt werden soll
+     */
     public void figurNachHintenBewegen(Figur figur) {
         if (davor != null) {
             davor.figurAufFeldSetzen(figur);

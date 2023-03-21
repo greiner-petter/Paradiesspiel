@@ -24,6 +24,11 @@ public class Spieler {
         return farbe;
     }
 
+    /**
+     * überprüft, ob alle Figuren des Spielers auf dem Paradies stehen
+     *
+     * @return ob der Spieler Gewinner ist
+     */
     public boolean istGewinner() {
         for (Figur figur : figuren) {
             if (!figur.getParadies()) {
@@ -33,7 +38,10 @@ public class Spieler {
         return true;
     }
 
-
+    /**
+     * @param name der Name einer bestimmten Figur
+     * @return die gesuchte Figur als Objekt
+     */
     public Figur getFigur(String name) {
         for (Figur figur : figuren) {
             if (figur.getName().equals(name)) {

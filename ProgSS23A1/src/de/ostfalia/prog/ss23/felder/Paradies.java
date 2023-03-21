@@ -7,6 +7,9 @@ public class Paradies extends Feld {
         super(davor, position);
     }
 
+    /**
+     * Setzt für alle Figuren auf dem Feld, dass sie auf dem Paradiesfeld stehen auf true
+     */
     @Override
     public void ereignis() {
         for (Figur figur : getFigurenAufFeld()) {
