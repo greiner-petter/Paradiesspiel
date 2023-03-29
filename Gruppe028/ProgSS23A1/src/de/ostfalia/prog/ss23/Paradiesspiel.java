@@ -5,8 +5,6 @@ import de.ostfalia.prog.ss23.felder.*;
 import de.ostfalia.prog.ss23.interfaces.IParadiesspiel;
 
 import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
 
 public class Paradiesspiel implements IParadiesspiel {
     private final Spieler[] mitspieler;
@@ -92,6 +90,7 @@ public class Paradiesspiel implements IParadiesspiel {
             davor = spielfeld[i];
             spielfeld[i-1].setDanach(davor);
         }
+        spielfeld[6].setDanach(spielfeld[12]);
     }
 
     @Override
@@ -211,52 +210,5 @@ public class Paradiesspiel implements IParadiesspiel {
 
     public Feld[] getSpielfeld() {
         return spielfeld;
-    }
-
-    public static void main(String[] args) {
-        Paradiesspiel spiel = new Paradiesspiel(Farbe.BLAU, Farbe.GRUEN, Farbe.GELB, Farbe.ROT);
-        Wuerfel zahlenwuerfel = new Wuerfel(6);
-        Wuerfel farbenwuerfel = new Wuerfel(spiel.getAlleSpieler());
-        Scanner scan = new Scanner(System.in);
-        Random rand = new Random();
-
-        int rundenCounter = 1;
-        String currentSpielerAmZug;
-        String figur;
-        String input;
-        int[] wurf = new int[2];
-
-        while (spiel.getGewinner() == null) {
-            for (Feld feld : spiel.getSpielfeld()) {
-                System.out.println(feld.toString() + feld.figurenToString());
-            }
-            System.out.println("Runde " + rundenCounter);
-
-            spiel.setFarbeAmZug(farbenwuerfel.farbeWuerfeln());
-            System.out.println("Farbe am zug: " + spiel.getFarbeAmZug());
-
-            currentSpielerAmZug = spiel.getSpieler(spiel.getFarbeAmZug()).getFarbe().toString();
-
-            System.out.println("Figur A oder B?");
-            input = scan.nextLine().toUpperCase();
-
-            wurf[0] = zahlenwuerfel.zahlWuerfeln();
-            wurf[1] = zahlenwuerfel.zahlWuerfeln();
-            System.out.println("Wurf: " + wurf[0] + ", " + wurf[1]);
-
-            if (input.equals("A")) {
-                figur = currentSpielerAmZug + "-A";
-            } else if (input.equals("B")){
-                figur = currentSpielerAmZug + "-B";
-            } else {
-                figur = spiel.getSpieler(spiel.getFarbeAmZug()).getFiguren()[rand.nextInt(2)].getName();
-            }
-            spiel.bewegeFigur(figur, wurf);
-
-            System.out.println(figur + " steht auf Feld " + spiel.getFigurposition(figur));
-            rundenCounter++;
-        }
-        System.out.println(spiel.getGewinner() + " gewinnt");
-        scan.close();
     }
 }
