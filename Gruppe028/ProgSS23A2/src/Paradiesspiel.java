@@ -211,4 +211,8 @@ public class Paradiesspiel implements IParadiesspiel {
     public Feld[] getSpielfeld() {
         return spielfeld;
     }
+
+    public static void main(String[] args) {
+        
+    }
 }
