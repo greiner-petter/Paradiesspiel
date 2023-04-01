@@ -18,6 +18,10 @@ public abstract class Feld {
 
     public abstract void ereignis();
 
+    public Feld getDavor() {
+        return davor;
+    }
+
     public Feld getDanach() {
         return danach;
     }
