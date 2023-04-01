@@ -19,4 +19,9 @@ public class Pech extends Feld {
         }
         feld.ereignis();
     }
+
+    @Override
+    public String toString() {
+        return "Pech";
+    }
 }

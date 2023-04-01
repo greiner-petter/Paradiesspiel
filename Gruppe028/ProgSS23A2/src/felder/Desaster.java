@@ -17,6 +17,10 @@ public class Desaster extends Feld {
                 feld = feld.getDavor();
             }
         }
-        feld.ereignis();
+    }
+
+    @Override
+    public String toString() {
+        return "Desaster";
     }
 }
