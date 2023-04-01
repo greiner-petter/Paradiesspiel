@@ -17,6 +17,7 @@ public class Desaster extends Feld {
                 feld = feld.getDavor();
             }
         }
+        feld.ereignis();
     }
 
     @Override
