@@ -84,6 +84,12 @@ public class Paradiesspiel implements IParadiesspiel {
                 spielfeld[i] = new Bruecke(davor, i);
             } else if (i == 52) {
                 spielfeld[i] = new Aufschwung(davor, i);
+            } else if (i == 5 || i == 9) {
+                spielfeld[i] = new Pech(davor, i);
+            } else if (Arrays.asList(24, 41, 54).contains(i)) {
+                spielfeld[i] = new Desaster(davor, i);
+            } else if (i == 58) {
+                spielfeld[i] = new Neuanfang(davor ,i);
             } else {
                 spielfeld[i] = new Standard(davor, i);
             }
@@ -210,9 +216,5 @@ public class Paradiesspiel implements IParadiesspiel {
 
     public Feld[] getSpielfeld() {
         return spielfeld;
-    }
-
-    public static void main(String[] args) {
-        
     }
 }

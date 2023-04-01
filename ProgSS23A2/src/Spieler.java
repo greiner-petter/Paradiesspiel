@@ -3,21 +3,17 @@ package de.ostfalia.prog.ss23;
 import de.ostfalia.prog.ss23.enums.Farbe;
 
 public class Spieler {
-    private Farbe farbe;
+    private final Farbe farbe;
     private final Figur[] figuren;
 
     public Spieler(Farbe farbe, int anzahlFiguren) {
-        setFarbe(farbe);
+        this.farbe = farbe;
         this.figuren = new Figur[anzahlFiguren];
         char index = 'A';
         for (int i = 0; i < anzahlFiguren; i++) {
             figuren[i] = new Figur(farbe + "-" + index);
             index++;
         }
-    }
-
-    public void setFarbe(Farbe farbe) {
-        this.farbe = farbe;
     }
 
     public Farbe getFarbe() {
