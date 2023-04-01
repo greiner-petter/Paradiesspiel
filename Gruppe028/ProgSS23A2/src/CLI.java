@@ -14,18 +14,15 @@ public class CLI {
         Random rand = new Random();
 
         Paradiesspiel spiel = null;
-        ArrayList<Farbe> mitspieler;
-        String input;
         while (spiel == null) {
-            mitspieler = new ArrayList<Farbe>();
-            do {
+            ArrayList<Farbe> mitspieler = new ArrayList<Farbe>();
+            String input = scan.nextLine().toUpperCase();
+            while (!input.equals("DONE")) {
+                mitspieler.add(Farbe.valueOf(input));
                 input = scan.nextLine().toUpperCase();
-                if (!input.equals("DONE")){
-                    mitspieler.add(Farbe.valueOf(input));
-                }
-            } while (!input.equals("DONE"));
+            }
             Farbe[] mitspielerArray = new Farbe[mitspieler.size()];
-            for (int i = 0; i < mitspieler.size() - 1; i++) {
+            for (int i = 0; i < mitspieler.size(); i++) {
                 mitspielerArray[i] = mitspieler.get(i);
             }
             try {
@@ -40,6 +37,7 @@ public class CLI {
         int rundenCounter = 1;
         String currentSpielerAmZug;
         String figur;
+        String input;
         int[] wurf = new int[2];
 
         while (spiel.getGewinner() == null) {
