@@ -1,23 +1,45 @@
 package de.ostfalia.prog.ss23;
 
 import de.ostfalia.prog.ss23.enums.Farbe;
-import de.ostfalia.prog.ss23.felder.Feld;
+import de.ostfalia.prog.ss23.exceptions.*;
+import de.ostfalia.prog.ss23.felder.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class CLI {
     public static void main(String[] args) {
-        Paradiesspiel spiel = new Paradiesspiel(Farbe.ROT, Farbe.GRUEN);
-        Wuerfel zahlenwuerfel = new Wuerfel(6);
-        Wuerfel farbenwuerfel = new Wuerfel(spiel.getAlleSpieler());
         Scanner scan = new Scanner(System.in);
         Random rand = new Random();
+
+        Paradiesspiel spiel = null;
+        ArrayList<Farbe> mitspieler;
+        String input;
+        while (spiel == null) {
+            mitspieler = new ArrayList<Farbe>();
+            do {
+                input = scan.nextLine().toUpperCase();
+                if (!input.equals("DONE")){
+                    mitspieler.add(Farbe.valueOf(input));
+                }
+            } while (!input.equals("DONE"));
+            Farbe[] mitspielerArray = new Farbe[mitspieler.size()];
+            for (int i = 0; i < mitspieler.size() - 1; i++) {
+                mitspielerArray[i] = mitspieler.get(i);
+            }
+            try {
+                spiel = new Paradiesspiel(mitspielerArray);
+            } catch (FalscheSpielerzahlException e) {
+                System.out.println("Ungueltige Anzahl Spieler");
+            }
+        }
+        Wuerfel zahlenwuerfel = new Wuerfel(6);
+        Wuerfel farbenwuerfel = new Wuerfel(spiel.getAlleSpieler());
 
         int rundenCounter = 1;
         String currentSpielerAmZug;
         String figur;
-        String input;
         int[] wurf = new int[2];
 
         while (spiel.getGewinner() == null) {
