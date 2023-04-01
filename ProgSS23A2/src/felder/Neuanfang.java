@@ -16,4 +16,9 @@ public class Neuanfang extends Feld{
             feld = feld.getDavor();
         }
     }
+
+    @Override
+    public String toString() {
+        return "Neuanfang";
+    }
 }
