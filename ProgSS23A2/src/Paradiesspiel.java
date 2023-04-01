@@ -154,8 +154,8 @@ public class Paradiesspiel implements IParadiesspiel {
                     spielfeld[getFigurposition(figur)].figurNachHintenBewegen(getFigur(figur));
                 }
             }
-            spielfeld[getFigurposition(figur)].ereignis();
         }
+        spielfeld[getFigurposition(figur)].ereignis();
         return true;
     }
 
