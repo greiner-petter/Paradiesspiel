@@ -44,7 +44,10 @@ public class Paradiesspiel implements IParadiesspiel {
      * @param conf Bestimmte Figuren mit Position
      * @param farben Farben der Spieler
      */
-    public Paradiesspiel(String conf, Farbe... farben) {
+    public Paradiesspiel(String conf, Farbe... farben) throws FalscheSpielerzahlException, UngueltigePositionException {
+        if (2 > farben.length || farben.length > 6) {
+            throw new FalscheSpielerzahlException(farben.length);
+        }
         this.spielfeld = new Feld[64];
         this.mitspieler = new Spieler[farben.length];
         int i = 0;
@@ -61,6 +64,9 @@ public class Paradiesspiel implements IParadiesspiel {
             figurUndPosition = config.split(":");
             Figur figur = getFigur(figurUndPosition[0]);
             int position = Integer.parseInt(figurUndPosition[1]);
+            if (Arrays.asList(5, 6, 9, 14, 18, 24, 27, 32, 36, 41, 50, 54, 58).contains(position)) {
+                throw new UngueltigePositionException(spielfeld[position]);
+            }
             spielfeld[position].figurAufFeldSetzen(figur);
             figur.setPosition(position);
         }
@@ -93,7 +99,7 @@ public class Paradiesspiel implements IParadiesspiel {
             } else if (Arrays.asList(24, 41, 54).contains(i)) {
                 spielfeld[i] = new Desaster(davor, i);
             } else if (i == 58) {
-                spielfeld[i] = new Neuanfang(davor ,i);
+                spielfeld[i] = new Neuanfang(davor , i);
             } else {
                 spielfeld[i] = new Standard(davor, i);
             }
