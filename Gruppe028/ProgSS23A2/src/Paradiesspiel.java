@@ -1,6 +1,7 @@
 package de.ostfalia.prog.ss23;
 
 import de.ostfalia.prog.ss23.enums.Farbe;
+import de.ostfalia.prog.ss23.exceptions.*;
 import de.ostfalia.prog.ss23.felder.*;
 import de.ostfalia.prog.ss23.interfaces.IParadiesspiel;
 
@@ -16,7 +17,10 @@ public class Paradiesspiel implements IParadiesspiel {
      *
      * @param farben Farben der Spieler
      */
-    public Paradiesspiel(Farbe... farben) {
+    public Paradiesspiel(Farbe... farben) throws FalscheSpielerzahlException {
+        if (2 > farben.length || farben.length > 6) {
+            throw new FalscheSpielerzahlException(farben.length);
+        }
         this.spielfeld = new Feld[64];
         this.mitspieler = new Spieler[farben.length];
         int i = 0;
