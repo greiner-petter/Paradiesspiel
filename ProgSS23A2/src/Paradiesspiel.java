@@ -64,7 +64,9 @@ public class Paradiesspiel implements IParadiesspiel {
             figurUndPosition = config.split(":");
             Figur figur = getFigur(figurUndPosition[0]);
             int position = Integer.parseInt(figurUndPosition[1]);
-            if (Arrays.asList(5, 6, 9, 14, 18, 24, 27, 32, 36, 41, 50, 54, 58).contains(position)) {
+            if (Arrays.asList(5, 6, 9, 14, 18, 24, 27, 32, 36, 41, 50, 54, 58).contains(position) ||
+                    position < 0 ||
+                        position >= spielfeld.length) {
                 throw new UngueltigePositionException(spielfeld[position]);
             }
             spielfeld[position].figurAufFeldSetzen(figur);
