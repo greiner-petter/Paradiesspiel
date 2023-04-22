@@ -63,7 +63,7 @@ public class Paradiesspiel implements IParadiesspiel {
             figurUndPosition = config.split(":");
             Figur figur = getFigur(figurUndPosition[0]);
             int position = Integer.parseInt(figurUndPosition[1]);
-            if (!legalePosition(position)) {
+            if (illegalePosition(position)) {
                 throw new UngueltigePositionException(Integer.toString(position));
             }
             spielfeld[position].figurAufFeldSetzen(figur);
@@ -227,7 +227,7 @@ public class Paradiesspiel implements IParadiesspiel {
         return null;
     }
 
-    public boolean legalePosition(int position) {
+    public boolean illegalePosition(int position) {
         return !Arrays.asList(5, 6, 9, 14, 19, 24, 27, 32, 36, 41, 42, 46, 50, 54, 58).contains(position) &&
                 position >= 0 &&
                 position < spielfeld.length;
