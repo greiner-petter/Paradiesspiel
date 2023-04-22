@@ -5,13 +5,14 @@ import de.ostfalia.prog.ss23.enums.Farbe;
 public class Spieler {
     private final Farbe farbe;
     private final Figur[] figuren;
+    private boolean aussetzen;
 
     public Spieler(Farbe farbe, int anzahlFiguren) {
         this.farbe = farbe;
         this.figuren = new Figur[anzahlFiguren];
         char index = 'A';
         for (int i = 0; i < anzahlFiguren; i++) {
-            figuren[i] = new Figur(farbe + "-" + index);
+            figuren[i] = new Figur(farbe + "-" + index, this);
             index++;
         }
     }
@@ -49,5 +50,13 @@ public class Spieler {
 
     public Figur[] getFiguren() {
         return figuren;
+    }
+
+    public void setAussetzen(boolean aussetzen) {
+        this.aussetzen = aussetzen;
+    }
+
+    public boolean getAussetzen() {
+        return aussetzen;
     }
 }
