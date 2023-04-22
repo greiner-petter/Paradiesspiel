@@ -15,6 +15,7 @@ public class Neuanfang extends Feld{
             feld.figurNachHintenBewegen(figur);
             feld = feld.getDavor();
         }
+        figur.setPosition(0);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class Paradiesspiel implements IParadiesspiel {
      */
     public Paradiesspiel(Farbe... farben) throws FalscheSpielerzahlException {
         if (2 > farben.length || farben.length > 6) {
-            throw new FalscheSpielerzahlException(farben.length);
+            throw new FalscheSpielerzahlException(Integer.toString(farben.length));
         }
         this.spielfeld = new Feld[64];
         this.mitspieler = new Spieler[farben.length];
@@ -46,7 +46,7 @@ public class Paradiesspiel implements IParadiesspiel {
      */
     public Paradiesspiel(String conf, Farbe... farben) throws FalscheSpielerzahlException, UngueltigePositionException {
         if (2 > farben.length || farben.length > 6) {
-            throw new FalscheSpielerzahlException(farben.length);
+            throw new FalscheSpielerzahlException(Integer.toString(farben.length));
         }
         this.spielfeld = new Feld[64];
         this.mitspieler = new Spieler[farben.length];
@@ -67,7 +67,7 @@ public class Paradiesspiel implements IParadiesspiel {
             if (Arrays.asList(5, 6, 9, 14, 18, 24, 27, 32, 36, 41, 50, 54, 58).contains(position) ||
                     position < 0 ||
                         position >= spielfeld.length) {
-                throw new UngueltigePositionException(spielfeld[position]);
+                throw new UngueltigePositionException(Integer.toString(position));
             }
             spielfeld[position].figurAufFeldSetzen(figur);
             figur.setPosition(position);
@@ -149,7 +149,9 @@ public class Paradiesspiel implements IParadiesspiel {
         if (getFigurposition(figur) == -1 ||
                 !figur.contains(getFarbeAmZug().toString()) ||
                     getGewinner() != null ||
-                        getFigur(figur).getPosition() == spielfeld.length - 1) {
+                        getFigur(figur).getPosition() == spielfeld.length - 1 ||
+                            getSpieler(farbeAmZug).getAussetzen()) {
+            getSpieler(farbeAmZug).setAussetzen(false);
             return false;
         }
         boolean kannNachVorne = true;

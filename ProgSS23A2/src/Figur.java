@@ -2,15 +2,17 @@ package de.ostfalia.prog.ss23;
 
 public class Figur {
     private int position;
-    private String name;
+    private final String name;
     private boolean paradies;
     private int[] wurf;
+    private final Spieler spieler;
 
-    public Figur(String name) {
+    public Figur(String name, Spieler spieler) {
         setPosition(0);
-        setName(name);
+        this.name = name;
         setParadies(false);
         setWurf(new int[]{0, 0});
+        this.spieler = spieler;
     }
 
     public void setPosition(int position) {
@@ -21,11 +23,6 @@ public class Figur {
     public int getPosition() {
 
         return position;
-    }
-
-    public void setName(String name) {
-
-        this.name = name;
     }
 
     public String getName() {
@@ -51,5 +48,9 @@ public class Figur {
     public int[] getWurf() {
 
         return wurf;
+    }
+
+    public Spieler getSpieler() {
+        return spieler;
     }
 }
