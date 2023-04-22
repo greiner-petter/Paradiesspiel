@@ -228,9 +228,9 @@ public class Paradiesspiel implements IParadiesspiel {
     }
 
     public boolean illegalePosition(int position) {
-        return !Arrays.asList(5, 6, 9, 14, 19, 24, 27, 32, 36, 41, 42, 46, 50, 54, 58).contains(position) &&
-                position >= 0 &&
-                position < spielfeld.length;
+        return Arrays.asList(5, 6, 9, 14, 18, 19, 24, 27, 32, 36, 41, 50, 54, 58).contains(position) ||
+                position < 0 ||
+                position > spielfeld.length;
     }
 
     public Feld[] getSpielfeld() {
