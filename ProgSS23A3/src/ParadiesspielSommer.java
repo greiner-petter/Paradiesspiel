@@ -1,15 +1,16 @@
 package de.ostfalia.prog.ss23;
 
 import de.ostfalia.prog.ss23.enums.Farbe;
-import de.ostfalia.prog.ss23.exceptions.*;
+import de.ostfalia.prog.ss23.exceptions.FalscheSpielerzahlException;
+import de.ostfalia.prog.ss23.exceptions.UngueltigePositionException;
 import de.ostfalia.prog.ss23.felder.*;
 import de.ostfalia.prog.ss23.interfaces.IParadiesspiel;
 
 import java.util.Arrays;
 
-public class Paradiesspiel implements IParadiesspiel {
+public class ParadiesspielSommer implements IParadiesspiel {
     private final Spieler[] mitspieler;
-    private final Feld[] spielfeld = new Feld[64];
+    private final Feld[] spielfeld = new Feld[71];
     private Farbe farbeAmZug;
 
     /**
@@ -17,14 +18,14 @@ public class Paradiesspiel implements IParadiesspiel {
      *
      * @param farben Farben der Spieler
      */
-    public Paradiesspiel(Farbe... farben) throws FalscheSpielerzahlException {
+    public ParadiesspielSommer(Farbe... farben) throws FalscheSpielerzahlException {
         if (2 > farben.length || farben.length > 6) {
             throw new FalscheSpielerzahlException(Integer.toString(farben.length));
         }
         this.mitspieler = new Spieler[farben.length];
         int i = 0;
         for (Farbe farbe : farben) {
-            this.mitspieler[i] = new Spieler(farbe, 2);
+            this.mitspieler[i] = new Spieler(farbe, 3);
             i++;
         }
         spielfeldErstellen();
@@ -43,14 +44,14 @@ public class Paradiesspiel implements IParadiesspiel {
      * @param conf Bestimmte Figuren mit Position
      * @param farben Farben der Spieler
      */
-    public Paradiesspiel(String conf, Farbe... farben) throws FalscheSpielerzahlException, UngueltigePositionException {
+    public ParadiesspielSommer(String conf, Farbe... farben) throws FalscheSpielerzahlException, UngueltigePositionException {
         if (2 > farben.length || farben.length > 6) {
             throw new FalscheSpielerzahlException(Integer.toString(farben.length));
         }
         this.mitspieler = new Spieler[farben.length];
         int i = 0;
         for (Farbe farbe : farben) {
-            this.mitspieler[i] = new Spieler(farbe, 2);
+            this.mitspieler[i] = new Spieler(farbe, 3);
             i++;
         }
         spielfeldErstellen();
@@ -62,7 +63,7 @@ public class Paradiesspiel implements IParadiesspiel {
             figurUndPosition = config.split(":");
             Figur figur = getFigur(figurUndPosition[0]);
             int position = Integer.parseInt(figurUndPosition[1]);
-            if (Arrays.asList(5, 6, 9, 14, 18, 19, 24, 27, 32, 36, 41, 50, 54, 58).contains(position) ||
+            if (Arrays.asList(5, 6, 9, 14, 19, 24, 27, 32, 36, 41, 42, 46, 50, 54, 58).contains(position) ||
                     position < 0 ||
                         position >= spielfeld.length) {
                 throw new UngueltigePositionException(Integer.toString(position));
@@ -88,9 +89,9 @@ public class Paradiesspiel implements IParadiesspiel {
         for (int i = 1; i < spielfeld.length; i++) {
             if (i == spielfeld.length - 1) {
                 spielfeld[i] = new Paradies(davor, i);
-            } else if (Arrays.asList(14, 18, 27, 32, 36, 50).contains(i)) {
+            } else if (Arrays.asList(14, 27, 32, 36, 50).contains(i)) {
                 spielfeld[i] = new Glueck(davor, i);
-            } else if (i == 6) {
+            } else if (i == 6 || i == 42) {
                 spielfeld[i] = new Bruecke(davor, i);
             } else if (i == 52) {
                 spielfeld[i] = new Aufschwung(davor, i);
@@ -100,9 +101,10 @@ public class Paradiesspiel implements IParadiesspiel {
                 spielfeld[i] = new Desaster(davor, i);
             } else if (i == 58) {
                 spielfeld[i] = new Neuanfang(davor , i);
-            } else if (i == 19) {
-                spielfeld[i] = new Labyrinth(davor , i);
-            } else {
+            } else if (i == 19 || i == 46) {
+                spielfeld[i] = new Labyrinth(davor, i);
+            }
+            else {
                 spielfeld[i] = new Standard(davor, i);
             }
             davor = spielfeld[i];
