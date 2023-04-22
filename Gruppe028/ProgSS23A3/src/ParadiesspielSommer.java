@@ -11,6 +11,7 @@ import java.util.Arrays;
 public class ParadiesspielSommer implements IParadiesspiel {
     private final Spieler[] mitspieler;
     private final Feld[] spielfeld = new Feld[71];
+    private final int anzahlFiguren = 3;
     private Farbe farbeAmZug;
 
     /**
@@ -25,7 +26,7 @@ public class ParadiesspielSommer implements IParadiesspiel {
         this.mitspieler = new Spieler[farben.length];
         int i = 0;
         for (Farbe farbe : farben) {
-            this.mitspieler[i] = new Spieler(farbe, 3);
+            this.mitspieler[i] = new Spieler(farbe, anzahlFiguren);
             i++;
         }
         spielfeldErstellen();
@@ -51,7 +52,7 @@ public class ParadiesspielSommer implements IParadiesspiel {
         this.mitspieler = new Spieler[farben.length];
         int i = 0;
         for (Farbe farbe : farben) {
-            this.mitspieler[i] = new Spieler(farbe, 3);
+            this.mitspieler[i] = new Spieler(farbe, anzahlFiguren);
             i++;
         }
         spielfeldErstellen();
@@ -63,10 +64,8 @@ public class ParadiesspielSommer implements IParadiesspiel {
             figurUndPosition = config.split(":");
             Figur figur = getFigur(figurUndPosition[0]);
             int position = Integer.parseInt(figurUndPosition[1]);
-            if (Arrays.asList(5, 6, 9, 14, 19, 24, 27, 32, 36, 41, 42, 46, 50, 54, 58).contains(position) ||
-                    position < 0 ||
-                        position >= spielfeld.length) {
-                throw new UngueltigePositionException(Integer.toString(position));
+            if (!legalePosition(position)) {
+                throw new UngueltigePositionException();
             }
             spielfeld[position].figurAufFeldSetzen(figur);
             figur.setPosition(position);
@@ -103,8 +102,7 @@ public class ParadiesspielSommer implements IParadiesspiel {
                 spielfeld[i] = new Neuanfang(davor , i);
             } else if (i == 19 || i == 46) {
                 spielfeld[i] = new Labyrinth(davor, i);
-            }
-            else {
+            } else {
                 spielfeld[i] = new Standard(davor, i);
             }
             davor = spielfeld[i];
@@ -228,6 +226,12 @@ public class ParadiesspielSommer implements IParadiesspiel {
             }
         }
         return null;
+    }
+
+    public boolean legalePosition(int position) {
+        return !Arrays.asList(5, 6, 9, 14, 19, 24, 27, 32, 36, 41, 42, 46, 50, 54, 58).contains(position) &&
+                position >= 0 &&
+                position < spielfeld.length;
     }
 
     public Feld[] getSpielfeld() {
