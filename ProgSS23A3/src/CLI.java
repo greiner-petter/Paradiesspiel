@@ -3,16 +3,18 @@ package de.ostfalia.prog.ss23;
 import de.ostfalia.prog.ss23.enums.Farbe;
 import de.ostfalia.prog.ss23.exceptions.*;
 import de.ostfalia.prog.ss23.felder.*;
+import de.ostfalia.prog.ss23.interfaces.*;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class CLI {
-    public static void main(String[] args) throws FalscheSpielerzahlException {
+    public static void main(String[] args) throws FalscheSpielerzahlException, IOException {
         Scanner scan = new Scanner(System.in);
         Random rand = new Random();
 
-        Paradiesspiel spiel = new Paradiesspiel(Farbe.GELB, Farbe.BLAU);
+        Paradiesspiel spiel = (Paradiesspiel) Paradiesspiel.laden("/Users/Oliver/Documents/Code/Ostfalia/svn/i-prog-ss2023/Gruppe028/ProgSS23A3/spiel.csv");
 
         Wuerfel zahlenwuerfel = new Wuerfel(6);
         Wuerfel farbenwuerfel = new Wuerfel(spiel.getAlleSpieler());
