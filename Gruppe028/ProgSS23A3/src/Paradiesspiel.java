@@ -5,9 +5,7 @@ import de.ostfalia.prog.ss23.exceptions.*;
 import de.ostfalia.prog.ss23.felder.*;
 import de.ostfalia.prog.ss23.interfaces.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 
 public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
@@ -239,7 +237,31 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
 
     @Override
     public void speichern(String dateiName) throws IOException {
-
+        BufferedWriter writer = new BufferedWriter(new FileWriter(dateiName));
+        StringBuilder builder = new StringBuilder();
+        builder.append("1;");
+        for (Spieler spieler : mitspieler) {
+            for (Figur figur : spieler.getFiguren()) {
+                if (figur.getPosition() != 0) {
+                    builder.append(figur.getName());
+                    builder.append(":");
+                    builder.append(figur.getPosition());
+                    builder.append(",");
+                }
+            }
+        }
+        builder.setCharAt(builder.length() - 1, ';');
+        for (Spieler spieler : mitspieler) {
+            builder.append(spieler.getFarbe().toString());
+            builder.append(",");
+        }
+        builder.setCharAt(builder.length() - 1, ';');
+        for (Spieler spieler : mitspieler) {
+            builder.append(spieler.getAussetzen());
+            builder.append(",");
+        }
+        builder.setCharAt(builder.length() - 1, ';');
+        writer.write(builder.toString());
     }
 
 

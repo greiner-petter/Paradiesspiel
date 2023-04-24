@@ -1,8 +1,7 @@
 package de.ostfalia.prog.ss23;
 
 import de.ostfalia.prog.ss23.enums.Farbe;
-import de.ostfalia.prog.ss23.exceptions.FalscheSpielerzahlException;
-import de.ostfalia.prog.ss23.exceptions.UngueltigePositionException;
+import de.ostfalia.prog.ss23.exceptions.*;
 import de.ostfalia.prog.ss23.felder.*;
 
 import java.util.Arrays;
