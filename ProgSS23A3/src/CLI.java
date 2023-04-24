@@ -18,6 +18,8 @@ public class CLI {
         Wuerfel zahlenwuerfel = new Wuerfel(6);
         Wuerfel farbenwuerfel = new Wuerfel(spiel.getAlleSpieler());
 
+        spiel.speichern("/Users/Oliver/Documents/Code/Ostfalia/svn/i-prog-ss2023/Gruppe028/ProgSS23A3/spiel.csv");
+
         int rundenCounter = 1;
         String currentSpielerAmZug;
         String figur;
