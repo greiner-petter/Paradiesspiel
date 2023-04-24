@@ -58,7 +58,7 @@ public class ParadiesspielSommer extends Paradiesspiel {
 
     @Override
     public boolean illegalePosition(int position) {
-        return Arrays.asList(5, 6, 9, 14, 19, 24, 27, 32, 36, 41, 42, 46, 50, 54, 58).contains(position) ||
+        return Arrays.asList(5, 6, 9, 14, 24, 27, 32, 36, 41, 42, 50, 54, 58).contains(position) ||
                 position < 0 ||
                 position > spielfeld.length;
     }
