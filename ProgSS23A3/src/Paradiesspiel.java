@@ -5,7 +5,9 @@ import de.ostfalia.prog.ss23.exceptions.*;
 import de.ostfalia.prog.ss23.felder.*;
 import de.ostfalia.prog.ss23.interfaces.*;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -71,10 +73,8 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
 
     public void spielerErstellen(Farbe... farben) {
         this.mitspieler = new Spieler[farben.length];
-        int i = 0;
-        for (Farbe farbe : farben) {
-            this.mitspieler[i] = new Spieler(farbe, 2);
-            i++;
+        for (int i = 0; i < farben.length; i ++) {
+            this.mitspieler[i] = new Spieler(farben[i], 2);
         }
     }
 
@@ -244,8 +244,34 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
     }
 
 
-    public static IParadiesspiel laden(String dateiName) throws DateiLeerException, FileNotFoundException, FalscheSpielerzahlException {
-
-        return new Paradiesspiel(Farbe.BLAU, Farbe.GELB);
+    public static IParadiesspiel laden(String dateiName) throws DateiLeerException, IOException, FalscheSpielerzahlException {
+        BufferedReader reader = new BufferedReader(new FileReader(dateiName));
+        String input = reader.readLine();
+        if (input.length() == 0) {
+            throw new DateiLeerException();
+        }
+        String[] splitInput = input.split(";");
+        int spielart = Integer.parseInt(splitInput[0]);
+        String[] splitFarben = splitInput[2].split(",");
+        Farbe[] farben = new Farbe[splitFarben.length];
+        for (int i = 0; i < splitFarben.length; i++) {
+            farben[i] = Farbe.valueOf(splitFarben[i].trim());
+        }
+        String[] aussetzen = splitInput[3].split(",");
+        if (spielart == 1) {
+            Paradiesspiel spiel = new Paradiesspiel(splitInput[1], farben);
+            for (int i = 0; i < aussetzen.length; i++) {
+                spiel.getSpieler(spiel.getAlleSpieler()[i]).setAussetzen(Boolean.parseBoolean(aussetzen[i].trim()));
+            }
+            return spiel;
+        } else if (spielart == 2) {
+            Paradiesspiel spiel = new ParadiesspielSommer(splitInput[1], farben);
+            for (int i = 0; i < aussetzen.length; i++) {
+                spiel.getSpieler(spiel.getAlleSpieler()[i]).setAussetzen(Boolean.parseBoolean(aussetzen[i].trim()));
+            }
+            return spiel;
+        } else {
+            throw new IOException("Falsche spielart angegeben");
+        }
     }
 }
