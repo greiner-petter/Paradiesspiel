@@ -56,7 +56,7 @@ public class CLI {
         SCAN.close();
     }
 
-    public static Paradiesspiel spielErstellen() throws FalscheSpielerzahlException, IOException {
+    private static Paradiesspiel spielErstellen() throws FalscheSpielerzahlException, IOException {
         while (true) {
             System.out.println("1. Neues Spiel");
             System.out.println("2. Spiel Laden");
@@ -82,7 +82,7 @@ public class CLI {
         }
     }
 
-    public static Paradiesspiel neuesParadiesspiel() {
+    private static Paradiesspiel neuesParadiesspiel() {
         boolean[] spieltMit = new boolean[Farbe.values().length];
         Farbe[] mitspieler;
         int input;
