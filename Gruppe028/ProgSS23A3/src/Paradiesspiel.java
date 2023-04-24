@@ -247,7 +247,7 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
     public static IParadiesspiel laden(String dateiName) throws DateiLeerException, IOException, FalscheSpielerzahlException {
         BufferedReader reader = new BufferedReader(new FileReader(dateiName));
         String input = reader.readLine();
-        if (input.length() == 0) {
+        if (input == null) {
             throw new DateiLeerException();
         }
         String[] splitInput = input.split(";");
