@@ -16,7 +16,7 @@ public class ParadiesspielSommer extends Paradiesspiel {
     }
 
     @Override
-    public void spielerErstellen(Farbe... farben) {
+    public void mitspielerErstellen(Farbe... farben) {
         this.mitspieler = new Spieler[farben.length];
         int i = 0;
         for (Farbe farbe : farben) {

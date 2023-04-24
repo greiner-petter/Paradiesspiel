@@ -22,7 +22,7 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
         if (2 > farben.length || farben.length > 6) {
             throw new FalscheSpielerzahlException(Integer.toString(farben.length));
         }
-        spielerErstellen(farben);
+        mitspielerErstellen(farben);
         spielfeldErstellen();
         for (Spieler spieler : mitspieler) {
             for (Figur figur : spieler.getFiguren()) {
@@ -43,7 +43,7 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
         if (2 > farben.length || farben.length > 6) {
             throw new FalscheSpielerzahlException(Integer.toString(farben.length));
         }
-        spielerErstellen(farben);
+        mitspielerErstellen(farben);
         spielfeldErstellen();
         String[] confSplit;
         String[] figurUndPosition;
@@ -68,7 +68,7 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
         }
     }
 
-    public void spielerErstellen(Farbe... farben) {
+    public void mitspielerErstellen(Farbe... farben) {
         this.mitspieler = new Spieler[farben.length];
         for (int i = 0; i < farben.length; i++) {
             this.mitspieler[i] = new Spieler(farben[i], 2);
