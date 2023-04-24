@@ -3,14 +3,15 @@ package de.ostfalia.prog.ss23;
 import de.ostfalia.prog.ss23.enums.Farbe;
 import de.ostfalia.prog.ss23.exceptions.*;
 import de.ostfalia.prog.ss23.felder.*;
-import de.ostfalia.prog.ss23.interfaces.IParadiesspiel;
+import de.ostfalia.prog.ss23.interfaces.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 
-public class Paradiesspiel implements IParadiesspiel {
-    private final Spieler[] mitspieler;
-    private final Feld[] spielfeld = new Feld[64];
-    private final int anzahlFiguren = 2;
+public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
+    protected Spieler[] mitspieler;
+    protected Feld[] spielfeld;
     private Farbe farbeAmZug;
 
     /**
@@ -22,12 +23,7 @@ public class Paradiesspiel implements IParadiesspiel {
         if (2 > farben.length || farben.length > 6) {
             throw new FalscheSpielerzahlException(Integer.toString(farben.length));
         }
-        this.mitspieler = new Spieler[farben.length];
-        int i = 0;
-        for (Farbe farbe : farben) {
-            this.mitspieler[i] = new Spieler(farbe, anzahlFiguren);
-            i++;
-        }
+        spielerErstellen(farben);
         spielfeldErstellen();
         for (Spieler spieler : mitspieler) {
             for (Figur figur : spieler.getFiguren()) {
@@ -48,12 +44,7 @@ public class Paradiesspiel implements IParadiesspiel {
         if (2 > farben.length || farben.length > 6) {
             throw new FalscheSpielerzahlException(Integer.toString(farben.length));
         }
-        this.mitspieler = new Spieler[farben.length];
-        int i = 0;
-        for (Farbe farbe : farben) {
-            this.mitspieler[i] = new Spieler(farbe, anzahlFiguren);
-            i++;
-        }
+        spielerErstellen(farben);
         spielfeldErstellen();
         String[] confSplit;
         String[] figurUndPosition;
@@ -78,10 +69,20 @@ public class Paradiesspiel implements IParadiesspiel {
         }
     }
 
+    public void spielerErstellen(Farbe... farben) {
+        this.mitspieler = new Spieler[farben.length];
+        int i = 0;
+        for (Farbe farbe : farben) {
+            this.mitspieler[i] = new Spieler(farbe, 2);
+            i++;
+        }
+    }
+
     /**
      * Erstellt das Spielfeld
      */
     public void spielfeldErstellen() {
+        spielfeld = new Feld[64];
         spielfeld[0] = new Start(null, 0);
         Feld davor = spielfeld[0];
         for (int i = 1; i < spielfeld.length; i++) {
@@ -235,5 +236,16 @@ public class Paradiesspiel implements IParadiesspiel {
 
     public Feld[] getSpielfeld() {
         return spielfeld;
+    }
+
+    @Override
+    public void speichern(String dateiName) throws IOException {
+
+    }
+
+
+    public static IParadiesspiel laden(String dateiName) throws DateiLeerException, FileNotFoundException, FalscheSpielerzahlException {
+
+        return new Paradiesspiel(Farbe.BLAU, Farbe.GELB);
     }
 }

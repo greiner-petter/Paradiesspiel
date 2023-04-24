@@ -8,4 +8,9 @@ public class Labyrinth extends Feld{
     public void ereignis() {
         getFigurenAufFeld().get(getFigurenAufFeld().size() - 1).getSpieler().setAussetzen(true);
     }
+
+    @Override
+    public String toString() {
+        return "Labyrinth";
+    }
 }
