@@ -8,7 +8,6 @@ public class Figur {
     private final Spieler spieler;
 
     public Figur(String name, Spieler spieler) {
-        setPosition(0);
         this.name = name;
         setParadies(false);
         setWurf(new int[]{0, 0});

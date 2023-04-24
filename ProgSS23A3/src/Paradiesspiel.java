@@ -6,7 +6,6 @@ import de.ostfalia.prog.ss23.felder.*;
 import de.ostfalia.prog.ss23.interfaces.*;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -73,7 +72,7 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
 
     public void spielerErstellen(Farbe... farben) {
         this.mitspieler = new Spieler[farben.length];
-        for (int i = 0; i < farben.length; i ++) {
+        for (int i = 0; i < farben.length; i++) {
             this.mitspieler[i] = new Spieler(farben[i], 2);
         }
     }
