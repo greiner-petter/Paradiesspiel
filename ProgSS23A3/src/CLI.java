@@ -1,62 +1,161 @@
 package de.ostfalia.prog.ss23;
 
+import de.ostfalia.prog.ss23.enums.Farbe;
 import de.ostfalia.prog.ss23.exceptions.*;
 import de.ostfalia.prog.ss23.felder.*;
 
 import java.io.IOException;
-import java.util.Random;
 import java.util.Scanner;
 
 public class CLI {
+    private static final Scanner SCAN = new Scanner(System.in);
+
     public static void main(String[] args) throws FalscheSpielerzahlException, IOException {
-        Scanner scan = new Scanner(System.in);
-        Random rand = new Random();
-
-        Paradiesspiel spiel = (Paradiesspiel) Paradiesspiel.laden(
-                "/Users/Oliver/Documents/Code/Ostfalia/svn/i-prog-ss2023/Gruppe028/ProgSS23A3/spiel.csv");
-
+        Paradiesspiel spiel = spielErstellen();
         Wuerfel zahlenwuerfel = new Wuerfel(6);
         Wuerfel farbenwuerfel = new Wuerfel(spiel.getAlleSpieler());
-
-        spiel.speichern("/Users/Oliver/Documents/Code/Ostfalia/svn/i-prog-ss2023/Gruppe028/ProgSS23A3/spiel.csv");
-
         int rundenCounter = 1;
-        String currentSpielerAmZug;
-        String figur;
-        String input;
         int[] wurf = new int[2];
-
         while (spiel.getGewinner() == null) {
-            for (Feld feld : spiel.getSpielfeld()) {
-                System.out.println(feld.toString() + feld.figurenToString());
-            }
             System.out.println("Runde " + rundenCounter);
-
-            spiel.setFarbeAmZug(farbenwuerfel.farbeWuerfeln());
+            boolean mussAussetzen = true;
+            while (mussAussetzen) {
+                spiel.setFarbeAmZug(farbenwuerfel.farbeWuerfeln());
+                if (spiel.getSpieler(spiel.getFarbeAmZug()).getAussetzen()){
+                    System.out.println(spiel.getFarbeAmZug() + " muss Aussetzen\n");
+                    spiel.getSpieler(spiel.getFarbeAmZug()).setAussetzen(false);
+                } else {
+                    mussAussetzen = false;
+                }
+            }
             System.out.println("Farbe am zug: " + spiel.getFarbeAmZug());
-
-            currentSpielerAmZug = spiel.getSpieler(spiel.getFarbeAmZug()).getFarbe().toString();
-
             wurf[0] = zahlenwuerfel.zahlWuerfeln();
             wurf[1] = zahlenwuerfel.zahlWuerfeln();
             System.out.println("Wurf: " + wurf[0] + ", " + wurf[1]);
-
-            System.out.println("Figur A oder B?");
-            input = scan.nextLine().toUpperCase();
-
-            if (input.equals("A")) {
-                figur = currentSpielerAmZug + "-A";
-            } else if (input.equals("B")){
-                figur = currentSpielerAmZug + "-B";
-            } else {
-                figur = spiel.getSpieler(spiel.getFarbeAmZug()).getFiguren()[rand.nextInt(2)].getName();
+            System.out.println("Welche Figur?");
+            int i = 1;
+            for (Figur figur : spiel.getSpieler(spiel.getFarbeAmZug()).getFiguren()) {
+                System.out.println(i + ". " + figur.getName());
+                i++;
             }
-            spiel.bewegeFigur(figur, wurf);
-
-            System.out.println(figur + " steht auf Feld " + spiel.getFigurposition(figur));
+            System.out.println("0. Spiel Speichern");
+            int input = SCAN.nextInt();
+            if (input == 0) {
+                spiel.speichern("ProgSS23A3/gespeichertesSpiel.txt");
+                break;
+            }
+            String figurZuBewegen = spiel.getSpieler(spiel.getFarbeAmZug()).getFiguren()[input - 1].getName();
+            spiel.bewegeFigur(figurZuBewegen, wurf);
+            for (Feld feld : spiel.getSpielfeld()) {
+                System.out.println(feld.toString() + feld.figurenToString());
+            }
+            System.out.println(figurZuBewegen + " steht auf Feld " + spiel.getFigurposition(figurZuBewegen) + "\n");
             rundenCounter++;
         }
         System.out.println(spiel.getGewinner() + " gewinnt");
-        scan.close();
+        SCAN.close();
+    }
+
+    public static Paradiesspiel spielErstellen() throws FalscheSpielerzahlException, IOException {
+        while (true) {
+            System.out.println("1. Neues Spiel");
+            System.out.println("2. Spiel Laden");
+            int input = SCAN.nextInt();
+            if (input == 1) {
+                System.out.println("1. Paradiesspiel");
+                System.out.println("2. paradiesspielSommer");
+                input = SCAN.nextInt();
+                while (true) {
+                    if (input == 1) {
+                        return neuesParadiesspiel();
+                    } else if (input == 2) {
+                        return neuesParadiesspielSommer();
+                    } else {
+                        System.out.println("Unguelige Eingabe");
+                    }
+                }
+            } else if (input == 2) {
+                return (Paradiesspiel) Paradiesspiel.laden("ProgSS23A3/gespeichertesSpiel.txt");
+            } else {
+                System.out.println("Unguelige Eingabe");
+            }
+        }
+    }
+
+    public static Paradiesspiel neuesParadiesspiel() {
+        boolean[] spieltMit = new boolean[Farbe.values().length];
+        Farbe[] mitspieler;
+        int input;
+        while (true) {
+            System.out.println("Welche Spieler spielen mit?");
+            for (int i = 0; i < Farbe.values().length; i++) {
+                System.out.println(i+1 + ". " + Farbe.values()[i]);
+            }
+            System.out.println("0. Fertig");
+            input = SCAN.nextInt();
+            if (input == 0) {
+                int counter = 0;
+                for (boolean b : spieltMit) {
+                    if (b) {
+                        counter++;
+                    }
+                }
+                mitspieler = new Farbe[counter];
+                int j = 0;
+                for (int i = 0; i < spieltMit.length; i++) {
+                    if (spieltMit[i]) {
+                        mitspieler[j] = Farbe.values()[i];
+                        j++;
+                    }
+                }
+                try {
+                    return new Paradiesspiel(mitspieler);
+                } catch (FalscheSpielerzahlException e) {
+                    System.out.println("Zu wenig Spieler");
+                }
+            } else if (input > Farbe.values().length) {
+                System.out.println("Unguelige Eingabe");
+            } else {
+                spieltMit[input-1] = true;
+            }
+        }
+    }
+    private static Paradiesspiel neuesParadiesspielSommer() {
+        boolean[] spieltMit = new boolean[Farbe.values().length];
+        Farbe[] mitspieler;
+        int input;
+        while (true) {
+            System.out.println("Welche Spieler spielen mit?");
+            for (int i = 0; i < Farbe.values().length; i++) {
+                System.out.println(i+1 + ". " + Farbe.values()[i]);
+            }
+            System.out.println("0. Fertig");
+            input = SCAN.nextInt();
+            if (input == 0) {
+                int counter = 0;
+                for (boolean b : spieltMit) {
+                    if (b) {
+                        counter++;
+                    }
+                }
+                mitspieler = new Farbe[counter];
+                int j = 0;
+                for (int i = 0; i < spieltMit.length; i++) {
+                    if (spieltMit[i]) {
+                        mitspieler[j] = Farbe.values()[i];
+                        j++;
+                    }
+                }
+                try {
+                    return new ParadiesspielSommer(mitspieler);
+                } catch (FalscheSpielerzahlException e) {
+                    System.out.println("Zu wenig Spieler");
+                }
+            } else if (input > Farbe.values().length) {
+                System.out.println("Unguelige Eingabe");
+            } else {
+                spieltMit[input-1] = true;
+            }
+        }
     }
 }

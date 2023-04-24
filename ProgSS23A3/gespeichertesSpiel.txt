@@ -1,0 +1,1 @@
+1;GELB-A:19;BLAU,GELB;false,false;
