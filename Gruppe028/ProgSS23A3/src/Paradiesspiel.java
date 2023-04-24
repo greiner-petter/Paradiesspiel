@@ -237,31 +237,36 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
 
     @Override
     public void speichern(String dateiName) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(dateiName));
-        StringBuilder builder = new StringBuilder();
-        builder.append("1;");
-        for (Spieler spieler : mitspieler) {
-            for (Figur figur : spieler.getFiguren()) {
-                if (figur.getPosition() != 0) {
-                    builder.append(figur.getName());
-                    builder.append(":");
-                    builder.append(figur.getPosition());
-                    builder.append(",");
+            FileWriter writer = new FileWriter(dateiName);
+            StringBuilder builder = new StringBuilder();
+            if (this instanceof ParadiesspielSommer) {
+                builder.append("1;");
+            } else {
+                builder.append("0;");
+            }
+            for (Spieler spieler : mitspieler) {
+                for (Figur figur : spieler.getFiguren()) {
+                    if (figur.getPosition() != 0) {
+                        builder.append(figur.getName());
+                        builder.append(":");
+                        builder.append(figur.getPosition());
+                        builder.append(",");
+                    }
                 }
             }
-        }
-        builder.setCharAt(builder.length() - 1, ';');
-        for (Spieler spieler : mitspieler) {
-            builder.append(spieler.getFarbe().toString());
-            builder.append(",");
-        }
-        builder.setCharAt(builder.length() - 1, ';');
-        for (Spieler spieler : mitspieler) {
-            builder.append(spieler.getAussetzen());
-            builder.append(",");
-        }
-        builder.setCharAt(builder.length() - 1, ';');
-        writer.write(builder.toString());
+            builder.setCharAt(builder.length() - 1, ';');
+            for (Spieler spieler : mitspieler) {
+                builder.append(spieler.getFarbe().toString());
+                builder.append(",");
+            }
+            builder.setCharAt(builder.length() - 1, ';');
+            for (Spieler spieler : mitspieler) {
+                builder.append(spieler.getAussetzen());
+                builder.append(",");
+            }
+            builder.setCharAt(builder.length() - 1, ';');
+            writer.write(builder.toString());
+            writer.close();
     }
 
 
@@ -272,27 +277,24 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
             throw new DateiLeerException();
         }
         String[] splitInput = input.split(";");
-        int spielart = Integer.parseInt(splitInput[0]);
         String[] splitFarben = splitInput[2].split(",");
         Farbe[] farben = new Farbe[splitFarben.length];
         for (int i = 0; i < splitFarben.length; i++) {
             farben[i] = Farbe.valueOf(splitFarben[i].trim());
         }
         String[] aussetzen = splitInput[3].split(",");
-        if (spielart == 1) {
-            Paradiesspiel spiel = new Paradiesspiel(splitInput[1], farben);
-            for (int i = 0; i < aussetzen.length; i++) {
-                spiel.getSpieler(spiel.getAlleSpieler()[i]).setAussetzen(Boolean.parseBoolean(aussetzen[i].trim()));
-            }
-            return spiel;
-        } else if (spielart == 2) {
+        if (Integer.parseInt(splitInput[0]) == 1) {
             Paradiesspiel spiel = new ParadiesspielSommer(splitInput[1], farben);
             for (int i = 0; i < aussetzen.length; i++) {
                 spiel.getSpieler(spiel.getAlleSpieler()[i]).setAussetzen(Boolean.parseBoolean(aussetzen[i].trim()));
             }
             return spiel;
         } else {
-            throw new IOException("Falsche spielart angegeben");
+            Paradiesspiel spiel = new Paradiesspiel(splitInput[1], farben);
+            for (int i = 0; i < aussetzen.length; i++) {
+                spiel.getSpieler(spiel.getAlleSpieler()[i]).setAussetzen(Boolean.parseBoolean(aussetzen[i].trim()));
+            }
+            return spiel;
         }
     }
 }
