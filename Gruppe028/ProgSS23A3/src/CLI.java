@@ -4,33 +4,16 @@ import de.ostfalia.prog.ss23.enums.Farbe;
 import de.ostfalia.prog.ss23.exceptions.*;
 import de.ostfalia.prog.ss23.felder.*;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class CLI {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FalscheSpielerzahlException {
         Scanner scan = new Scanner(System.in);
         Random rand = new Random();
 
-        Paradiesspiel spiel = null;
-        while (spiel == null) {
-            ArrayList<Farbe> mitspieler = new ArrayList<Farbe>();
-            String input = scan.nextLine().toUpperCase();
-            while (!input.equals("DONE")) {
-                mitspieler.add(Farbe.valueOf(input));
-                input = scan.nextLine().toUpperCase();
-            }
-            Farbe[] mitspielerArray = new Farbe[mitspieler.size()];
-            for (int i = 0; i < mitspieler.size(); i++) {
-                mitspielerArray[i] = mitspieler.get(i);
-            }
-            try {
-                spiel = new Paradiesspiel(mitspielerArray);
-            } catch (FalscheSpielerzahlException e) {
-                System.out.println("Ungueltige Anzahl Spieler");
-            }
-        }
+        Paradiesspiel spiel = new Paradiesspiel(Farbe.GELB, Farbe.BLAU);
+
         Wuerfel zahlenwuerfel = new Wuerfel(6);
         Wuerfel farbenwuerfel = new Wuerfel(spiel.getAlleSpieler());
 
