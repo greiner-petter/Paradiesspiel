@@ -5,7 +5,7 @@ import de.ostfalia.prog.ss23.enums.Farbe;
 import java.util.Random;
 
 public class Wuerfel {
-    Random rand = new Random();
+    private final Random rand = new Random();
     private int zahlenwuerfel;
     private Farbe[] farbenwuerfel;
 
