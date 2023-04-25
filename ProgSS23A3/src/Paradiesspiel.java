@@ -9,8 +9,8 @@ import java.io.*;
 import java.util.Arrays;
 
 public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
-    protected Spieler[] mitspieler;
-    protected Feld[] spielfeld;
+    private Spieler[] mitspieler;
+    private Feld[] spielfeld;
     private Farbe farbeAmZug;
 
     /**
@@ -233,6 +233,10 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
 
     public Feld[] getSpielfeld() {
         return spielfeld;
+    }
+
+    public Spieler[] getMitspieler() {
+        return mitspieler;
     }
 
     @Override
