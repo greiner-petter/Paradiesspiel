@@ -28,11 +28,11 @@ public class CLI {
                     mussAussetzen = false;
                 }
             }
-            System.out.println("Farbe am zug: " + spiel.getFarbeAmZug());
+            System.out.println("\nFarbe am zug: " + spiel.getFarbeAmZug());
             wurf[0] = zahlenwuerfel.zahlWuerfeln();
             wurf[1] = zahlenwuerfel.zahlWuerfeln();
             System.out.println("Wurf: " + wurf[0] + ", " + wurf[1]);
-            System.out.println("Welche Figur?");
+            System.out.println("\nWelche Figur?");
             int i = 1;
             for (Figur figur : spiel.getSpieler(spiel.getFarbeAmZug()).getFiguren()) {
                 System.out.println(i + ". " + figur.getName());
@@ -89,9 +89,14 @@ public class CLI {
         while (true) {
             System.out.println("Welche Spieler spielen mit?");
             for (int i = 0; i < Farbe.values().length; i++) {
-                System.out.println(i+1 + ". " + Farbe.values()[i]);
+                System.out.print(i+1 + ". " + Farbe.values()[i]);
+                if (spieltMit[i]) {
+                    System.out.println(" spielt mit");
+                } else {
+                    System.out.println();
+                }
             }
-            System.out.println("0. Fertig");
+            System.out.println("\n0. Fertig");
             input = SCAN.nextInt();
             if (input == 0) {
                 int counter = 0;
@@ -116,7 +121,7 @@ public class CLI {
             } else if (input > Farbe.values().length) {
                 System.out.println("Unguelige Eingabe");
             } else {
-                spieltMit[input-1] = true;
+                spieltMit[input-1] = !spieltMit[input-1];
             }
         }
     }
@@ -127,7 +132,12 @@ public class CLI {
         while (true) {
             System.out.println("Welche Spieler spielen mit?");
             for (int i = 0; i < Farbe.values().length; i++) {
-                System.out.println(i+1 + ". " + Farbe.values()[i]);
+                System.out.print(i+1 + ". " + Farbe.values()[i]);
+                if (spieltMit[i]) {
+                    System.out.println(" spielt mit");
+                } else {
+                    System.out.println();
+                }
             }
             System.out.println("0. Fertig");
             input = SCAN.nextInt();
@@ -154,7 +164,7 @@ public class CLI {
             } else if (input > Farbe.values().length) {
                 System.out.println("Unguelige Eingabe");
             } else {
-                spieltMit[input-1] = true;
+                spieltMit[input-1] = !spieltMit[input-1];
             }
         }
     }

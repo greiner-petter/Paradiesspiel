@@ -1,1 +1,1 @@
-1;GELB-A:19;BLAU,GELB;false,false;
+1;GRUEN-A:4;BLAU,GELB,GRUEN;false,false,false;
