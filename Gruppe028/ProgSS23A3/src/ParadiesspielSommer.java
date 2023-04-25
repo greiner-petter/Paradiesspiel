@@ -16,8 +16,11 @@ public class ParadiesspielSommer extends Paradiesspiel {
     }
 
     @Override
-    protected void configSetter() {
-        anzahlFiguren=3;
+    public void mitspielerErstellen(Farbe... farben) {
+        this.mitspieler = new Spieler[farben.length];
+        for (int i = 0; i < farben.length; i++) {
+            this.mitspieler[i] = new Spieler(farben[i], 3);
+        }
     }
 
     @Override
