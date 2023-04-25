@@ -7,8 +7,6 @@ import de.ostfalia.prog.ss23.felder.*;
 import java.util.Arrays;
 
 public class ParadiesspielSommer extends Paradiesspiel {
-    private Spieler[] mitspieler = getMitspieler();
-    private Feld[] spielfeld = getSpielfeld();
     public ParadiesspielSommer(Farbe... farben) throws FalscheSpielerzahlException {
         super(farben);
     }
@@ -18,13 +16,8 @@ public class ParadiesspielSommer extends Paradiesspiel {
     }
 
     @Override
-    public void mitspielerErstellen(Farbe... farben) {
-        mitspieler = new Spieler[farben.length];
-        int i = 0;
-        for (Farbe farbe : farben) {
-            this.mitspieler[i] = new Spieler(farbe, 3);
-            i++;
-        }
+    protected void configSetter() {
+        anzahlFiguren=3;
     }
 
     @Override
