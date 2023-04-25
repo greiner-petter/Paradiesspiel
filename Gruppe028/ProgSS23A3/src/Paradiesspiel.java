@@ -9,9 +9,11 @@ import java.io.*;
 import java.util.Arrays;
 
 public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
-    private Spieler[] mitspieler;
-    private Feld[] spielfeld;
+    protected Spieler[] mitspieler;
+    protected Feld[] spielfeld;
     private Farbe farbeAmZug;
+
+    protected int anzahlFiguren;
 
     /**
      * Konstruktor erstellt die Spieler und das Spielfeld und setzt alle Figuren der Spieler auf das Startfeld
@@ -22,6 +24,7 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
         if (2 > farben.length || farben.length > 6) {
             throw new FalscheSpielerzahlException(Integer.toString(farben.length));
         }
+        configSetter();
         mitspielerErstellen(farben);
         spielfeldErstellen();
         for (Spieler spieler : mitspieler) {
@@ -30,6 +33,10 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
                 figur.setPosition(0);
             }
         }
+    }
+
+    protected void configSetter() {
+        anzahlFiguren=2;
     }
 
     /**
@@ -71,7 +78,7 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
     public void mitspielerErstellen(Farbe... farben) {
         this.mitspieler = new Spieler[farben.length];
         for (int i = 0; i < farben.length; i++) {
-            this.mitspieler[i] = new Spieler(farben[i], 2);
+            this.mitspieler[i] = new Spieler(farben[i], anzahlFiguren);
         }
     }
 
