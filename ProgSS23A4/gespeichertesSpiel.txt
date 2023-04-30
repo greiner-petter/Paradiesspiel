@@ -1,0 +1,1 @@
+1;GRUEN-A:4;BLAU,GELB,GRUEN;false,false,false;
