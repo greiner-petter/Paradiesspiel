@@ -239,6 +239,10 @@ public class Paradiesspiel implements IParadiesspiel, ISpeicherbar {
         return mitspieler;
     }
 
+    public String toString() {
+        return "Paradiesspiel";
+    }
+
     @Override
     public void speichern(String dateiName) throws IOException {
             FileWriter writer = new FileWriter(dateiName);
