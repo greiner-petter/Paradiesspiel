@@ -1,5 +1,7 @@
 package de.ostfalia.prog.ss23.enums;
 
+import javafx.scene.paint.Color;
+
 /**
  * Die Aufzählungsklasse de.ostfalia.prog.ss22.enums.Farbe definiert die möglichen Farben für die Figuren
  * des Paradiesspiels und auch die Reihenfolge, wie sie vergeben werden. Dabei
@@ -15,26 +17,35 @@ public enum Farbe {
 	/**
 	 *
 	 */
-	BLAU,
+	BLAU(Color.BLUE),
 	/**
 	 *
 	 */
- 	GELB,
+ 	GELB(Color.YELLOW),
 	/**
 	 *
 	 */
- 	GRUEN,
+ 	GRUEN(Color.GREEN),
 	/**
 	 *
 	 */
- 	ROT,
+ 	ROT(Color.RED),
 	/**
 	 *
 	 */
- 	SCHWARZ,
+ 	SCHWARZ(Color.BLACK),
 	/**
 	 *
 	 */
- 	WEISS;
+ 	WEISS(Color.WHITE);
 
+	private Color color;
+
+	Farbe(Color color) {
+		this.color = color;
+	}
+
+	public Color getColor() {
+		return color;
+	}
 }

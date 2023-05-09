@@ -10,6 +10,6 @@ public class Standard extends Feld {
 
     @Override
     public String toString() {
-        return "-";
+        return "";
     }
 }

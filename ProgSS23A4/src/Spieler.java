@@ -47,6 +47,9 @@ public class Spieler {
         }
         return null;
     }
+    public Figur getFigur(int index) {
+        return figuren[index];
+    }
 
     public Figur[] getFiguren() {
         return figuren;

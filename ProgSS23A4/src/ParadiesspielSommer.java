@@ -60,4 +60,9 @@ public class ParadiesspielSommer extends Paradiesspiel {
                 position < 0 ||
                 position > spielfeld.length;
     }
+
+    @Override
+    public String toString() {
+        return "ParadiesspielSommer";
+    }
 }
